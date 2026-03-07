@@ -7,6 +7,9 @@ from app.booking_routes import router as booking_router
 from app.ml_routes import router as ml_router
 from app.review_routes import router as review_router
 from app.upload_routes import router as upload_router
+from app.message_routes import router as message_router
+from app.trip_routes import router as trip_router
+from app.expense_routes import router as expense_router
 
 app = FastAPI()
 
@@ -36,6 +39,9 @@ app.include_router(booking_router, prefix="/bookings", tags=["Bookings"])
 app.include_router(ml_router, prefix="/ml", tags=["ML Service"])
 app.include_router(review_router, prefix="/api/reviews", tags=["Reviews"])
 app.include_router(upload_router, prefix="/upload", tags=["Uploads"])
+app.include_router(message_router, prefix="/api/messages", tags=["Messages"])
+app.include_router(trip_router, prefix="/api/trips", tags=["Trips"])
+app.include_router(expense_router, prefix="/api/trips", tags=["Expenses"])
 
 @app.get("/")
 def root():

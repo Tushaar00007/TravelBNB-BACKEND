@@ -2,7 +2,10 @@ from fastapi import APIRouter, HTTPException
 from app.database import db
 from app.utils import hash_password, verify_password, create_access_token
 from datetime import datetime
-from bson import ObjectId   # ← ADD THIS LINE (for MongoDB _id)
+from bson import ObjectId
+import os
+from google.oauth2 import id_token
+from google.auth.transport import requests as google_requests
 
 router = APIRouter()
 
@@ -43,6 +46,74 @@ def login(user: dict):
     token = create_access_token({"user_id": str(db_user["_id"])})
 
     return {"access_token": token}
+
+
+# ========================
+# GOOGLE LOGIN ROUTE
+# ========================
+@router.post("/google-login")
+def google_login(payload: dict):
+    try:
+        token = payload.get("token")
+        phone = payload.get("phone")
+        if not token:
+            raise HTTPException(status_code=400, detail="Token is required")
+
+        # Verify the Google ID token
+        client_id = os.getenv("GOOGLE_CLIENT_ID")
+        id_info = id_token.verify_oauth2_token(token, google_requests.Request(), client_id)
+
+        email = id_info.get("email")
+        name = id_info.get("name")
+        picture = id_info.get("picture")
+
+        # Check if user exists
+        db_user = db.users.find_one({"email": email})
+
+        if not db_user:
+            # User doesn't exist. If no phone provided, we need it.
+            if not phone:
+                return {"needs_phone": True}
+            
+            # Create new user
+            new_user = {
+                "name": name,
+                "email": email,
+                "phone": phone,
+                "profile_image": picture,
+                "role": "guest",
+                "is_verified": True,
+                "created_at": datetime.utcnow(),
+                "updated_at": datetime.utcnow()
+            }
+            result = db.users.insert_one(new_user)
+            user_id = str(result.inserted_id)
+        else:
+            user_id = str(db_user["_id"])
+            # If user exists but has no phone, and phone is provided now, update it
+            if not db_user.get("phone"):
+                if not phone:
+                    return {"needs_phone": True}
+                db.users.update_one({"_id": db_user["_id"]}, {"$set": {"phone": phone}})
+
+        # Create our own JWT
+        jwt_token = create_access_token({"user_id": user_id})
+
+        return {
+            "access_token": jwt_token,
+            "user": {
+                "id": user_id,
+                "name": name,
+                "email": email,
+                "profile_image": picture
+            }
+        }
+
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid Google token")
+    except Exception as e:
+        print(f"❌ Google login error: {e}")
+        raise HTTPException(status_code=500, detail="Google authentication failed")
 
 
 # ========================
