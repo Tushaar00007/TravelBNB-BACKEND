@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from app.database import db
+from app.core.database import db
+from app.utils.trip_helpers import to_oid, log_activity
 from bson import ObjectId
 from datetime import datetime, timezone
 
@@ -7,13 +8,6 @@ router = APIRouter()
 
 
 # ─── helpers ────────────────────────────────────────────────────────────────
-
-def to_oid(val: str, label: str = "id") -> ObjectId:
-    try:
-        return ObjectId(val)
-    except Exception:
-        raise HTTPException(status_code=400, detail=f"Invalid {label}: {val}")
-
 
 def serialize_trip(t: dict) -> dict:
     return {
@@ -26,15 +20,6 @@ def serialize_trip(t: dict) -> dict:
         "end_date": t["end_date"].isoformat() if isinstance(t.get("end_date"), datetime) else str(t.get("end_date", "")),
         "created_at": t["created_at"].isoformat() if isinstance(t.get("created_at"), datetime) else str(t.get("created_at", "")),
     }
-
-
-def log_activity(trip_id: ObjectId, user_id: ObjectId | None, action: str):
-    db.trip_activities.insert_one({
-        "trip_id": trip_id,
-        "user_id": user_id,
-        "action": action,
-        "created_at": datetime.now(timezone.utc),
-    })
 
 
 def enrich_trip(trip: dict) -> dict:

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from app.database import db
-from app.utils import hash_password, verify_password, create_access_token
+from app.core.database import db
+from app.utils.security import hash_password, verify_password, create_access_token
 from datetime import datetime
 from bson import ObjectId
 import os
@@ -220,4 +220,3 @@ def update_password(user_id: str, payloads: dict):
     except Exception as e:
         print(f"❌ Backend error updating password: {e}")
         raise HTTPException(status_code=500, detail="Failed to update password")
-

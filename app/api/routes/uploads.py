@@ -2,7 +2,7 @@ import os
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
 import cloudinary
 import cloudinary.uploader
-from app.dependencies import get_current_user
+from app.core.dependencies import get_current_user
 from dotenv import load_dotenv
 
 load_dotenv()

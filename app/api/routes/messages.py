@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from app.database import db
-from app.sarvam_service import translate_text
+from app.core.database import db
+from app.services.sarvam_service import translate_text
 from datetime import datetime
 from bson import ObjectId
 

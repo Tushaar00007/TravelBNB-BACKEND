@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from app.database import db
-from app.trip_routes import to_oid, log_activity
+from app.core.database import db
+from app.utils.trip_helpers import to_oid, log_activity
 from bson import ObjectId
 from datetime import datetime, timezone
 

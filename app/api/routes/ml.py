@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
-from app.ml_service import get_itinerary_async, download_itinerary_pdf_async
+from app.services.ml_service import get_itinerary_async, download_itinerary_pdf_async
 from fastapi.responses import StreamingResponse
 
 router = APIRouter()

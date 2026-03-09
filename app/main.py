@@ -1,15 +1,17 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.auth_routes import router as auth_router
-from app.home_routes import router as home_router
-from app.booking_routes import router as booking_router
-from app.ml_routes import router as ml_router
-from app.review_routes import router as review_router
-from app.upload_routes import router as upload_router
-from app.message_routes import router as message_router
-from app.trip_routes import router as trip_router
-from app.expense_routes import router as expense_router
+from app.api.routes.auth import router as auth_router
+from app.api.routes.homes import router as home_router
+from app.api.routes.bookings import router as booking_router
+from app.api.routes.ml import router as ml_router
+from app.api.routes.reviews import router as review_router
+from app.api.routes.uploads import router as upload_router
+from app.api.routes.messages import router as message_router
+from app.api.routes.trips import router as trip_router
+from app.api.routes.expenses import router as expense_router
+from app.api.routes.crashpads import router as crashpad_router
+from app.api.routes.travel_buddy import router as travel_buddy_router
 
 app = FastAPI()
 
@@ -42,6 +44,8 @@ app.include_router(upload_router, prefix="/upload", tags=["Uploads"])
 app.include_router(message_router, prefix="/api/messages", tags=["Messages"])
 app.include_router(trip_router, prefix="/api/trips", tags=["Trips"])
 app.include_router(expense_router, prefix="/api/trips", tags=["Expenses"])
+app.include_router(crashpad_router, prefix="/crashpads", tags=["Crashpads"])
+app.include_router(travel_buddy_router, prefix="/travel-buddies", tags=["Travel Buddy"])
 
 @app.get("/")
 def root():
