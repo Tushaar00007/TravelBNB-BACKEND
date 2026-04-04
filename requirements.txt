@@ -28,5 +28,7 @@ typing_extensions==4.15.0
 uvicorn==0.41.0
 google-auth
 cloudinary
+python-multipart
+requests
 resend==2.26.0
 pyjwt==2.12.1
