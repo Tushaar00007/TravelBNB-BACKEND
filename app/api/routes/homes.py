@@ -1,4 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException
+import json
+import cloudinary.uploader
+from fastapi import APIRouter, Depends, HTTPException, Form, File, UploadFile
+from typing import List, Optional
 from app.core.database import db
 from app.core.dependencies import get_current_user
 from datetime import datetime
@@ -6,29 +9,83 @@ from bson import ObjectId
 
 router = APIRouter()
 
-# ✅ Create Home (Protected)
-@router.post("/")
-def create_home(home: dict, user_id: str = Depends(get_current_user)):
+# ✅ Create Home (Protected - Multipart/FormData)
+@router.post("/", status_code=201)
+async def create_home(
+    title: str = Form(...),
+    description: str = Form(""),
+    property_type: str = Form("House"),
+    price_per_night: float = Form(0.0),
+    is_free: bool = Form(True),
+    city: str = Form(...),
+    state: str = Form(...),
+    country: str = Form("INDIA"),
+    pincode: str = Form(""),
+    address: str = Form(""),
+    lat: float = Form(None),
+    lng: float = Form(None),
+    max_guests: int = Form(1),
+    bedrooms: int = Form(1),
+    beds: int = Form(1),
+    bathrooms: int = Form(1),
+    amenities: str = Form("[]"),
+    safety_features: str = Form("[]"),
+    images: List[UploadFile] = File([]),
+    user_id: str = Depends(get_current_user)
+):
+    """Create a new home listing with image uploads."""
+    
+    # 1. Upload Images to Cloudinary
+    image_urls = []
+    for image in images:
+        try:
+            if not image.content_type.startswith("image/"):
+                continue
+            result = cloudinary.uploader.upload(
+                image.file,
+                folder="travelbnb/homes",
+                resource_type="auto"
+            )
+            image_urls.append(result.get("secure_url"))
+        except Exception as e:
+            print(f"Error uploading image to Cloudinary: {str(e)}")
 
+    # 2. Parse JSON fields
+    try:
+        amenities_list = json.loads(amenities)
+        safety_list = json.loads(safety_features)
+    except json.JSONDecodeError:
+        amenities_list, safety_list = [], []
+
+    # 3. Construct the Home object
     new_home = {
         "host_id": ObjectId(user_id),
-        "title": home["title"],
-        "description": home["description"],
-        "property_type": home.get("property_type", "Apartment"),
-        "price_per_night": home["price_per_night"],
+        "title": title,
+        "description": description,
+        "property_type": property_type,
+        "price_per_night": float(price_per_night),
+        "is_free": str(is_free).lower() == "true",
         "currency": "INR",
-        "city": home["city"],
-        "state": home["state"],
-        "country": "India",
-        "location": home.get("location", {"lat": 20.5937, "lng": 78.9629}),
-        "max_guests": home["max_guests"],
-        "bedrooms": home["bedrooms"],
-        "beds": home.get("beds", 1),
-        "bathrooms": home["bathrooms"],
-        "amenities": home.get("amenities", []),
-        "images": home.get("images", []),
-        "caretaker_info": home.get("caretaker_info", ""),
+        "location": {
+            "address_line": address,
+            "city": city.upper(),
+            "state": state.upper(),
+            "country": country.upper(),
+            "pincode": pincode,
+            "lat": lat,
+            "lng": lng
+        },
+        "city": city.upper(), # Redundant for easier searching
+        "state": state.upper(),
+        "max_guests": int(max_guests),
+        "bedrooms": int(bedrooms),
+        "beds": int(beds),
+        "bathrooms": int(bathrooms),
+        "amenities": amenities_list,
+        "safety_features": safety_list,
+        "images": image_urls,
         "is_active": True,
+        "status": "pending",
         "created_at": datetime.utcnow(),
         "updated_at": datetime.utcnow()
     }
@@ -40,63 +97,155 @@ def create_home(home: dict, user_id: str = Depends(get_current_user)):
     if user_data:
         current_role = user_data.get("role", "guest")
         if isinstance(current_role, str):
-            # If it's a string like "guest", convert to an array of both
             if "host" not in current_role:
                 db.users.update_one(
                     {"_id": ObjectId(user_id)},
                     {"$set": {"role": ["guest", "host"]}}
                 )
         elif isinstance(current_role, list):
-            # If it's already an array, add "host" to it safely
             db.users.update_one(
                 {"_id": ObjectId(user_id)},
                 {"$addToSet": {"role": "host"}}
             )
 
-    return {"message": "Home created", "home_id": str(result.inserted_id)}
+    return {
+        "message": "Home created successfully", 
+        "id": str(result.inserted_id),
+        "images": image_urls
+    }
 
 
 # ✅ Get Homes For Current Host
 @router.get("/host/me")
 def get_host_homes(user_id: str = Depends(get_current_user)):
     homes = list(db.homes.find({"host_id": ObjectId(user_id)}))
-    
     for home in homes:
-        home["_id"] = str(home["_id"])
-        home["host_id"] = str(home["host_id"])
+        _serialize_home(home)
 
     return homes
 
 
-# ✅ Get All Homes (Public)
+def _serialize_home(home: dict) -> dict:
+    if not home: return home
+    home["_id"] = str(home["_id"])
+    home["host_id"] = str(home["host_id"])
+    if "approved_by" in home:
+        home["approved_by"] = [str(aid) for aid in home["approved_by"]]
+    return home
+
+# ✅ Get All Homes (Public) — supports filters + sort
 @router.get("/")
-def get_homes():
+def get_homes(
+    minPrice: float = 0,
+    maxPrice: float = 1_000_000,
+    propertyType: str = None,
+    amenities: str = None,
+    sort: str = None,
+    location: str = None,
+    guests: int = None,
+):
+    print(f"🔍 Fetching homes: {minPrice}-{maxPrice}, type={propertyType}, amenities={amenities}, sort={sort}")
+    try:
+        db.command("ping")
+        
+        query = {
+            "price_per_night": {"$gte": minPrice, "$lte": maxPrice},
+            "status": "approved"
+        }
+
+        if location:
+            query["city"] = {"$regex": location, "$options": "i"}
+            
+        if guests:
+            query["max_guests"] = {"$gte": int(guests)}
+
+        if propertyType:
+            types = [t.strip() for t in propertyType.split(",") if t.strip()]
+            if types:
+                query["property_type"] = {"$in": types}
+
+        if amenities:
+            selected = [a.strip() for a in amenities.split(",") if a.strip()]
+            if selected:
+                query["amenities"] = {"$all": selected}
+
+        sort_field = "created_at"
+        sort_dir = -1
+        if sort == "price_asc":
+            sort_field, sort_dir = "price_per_night", 1
+        elif sort == "price_desc":
+            sort_field, sort_dir = "price_per_night", -1
+
+        homes_cursor = db.homes.find(query).sort(sort_field, sort_dir)
+        homes = list(homes_cursor)
+        
+        result = []
+        for home in homes:
+            _serialize_home(home)
+            # Add host verification status
+            host = db.users.find_one({"_id": ObjectId(home["host_id"])}, {"is_verified": 1, "trust_score": 1})
+            if host:
+                home["host_verified"] = host.get("is_verified", False)
+                home["host_trust_score"] = host.get("trust_score", 0)
+            result.append(home)
+
+        print(f"✅ Successfully fetched {len(result)} homes")
+        return result
+    except Exception as e:
+        print(f"❌ Error in get_homes: {str(e)}")
+        return {"error": str(e)}
+
+# 🛠️ Temporary Debug Route
+@router.get("/debug/all-homes")
+def debug_homes():
+    try:
+        homes = list(db.homes.find())
+        for h in homes:
+            h["_id"] = str(h["_id"])
+            h["host_id"] = str(h.get("host_id", ""))
+        return homes
+    except Exception as e:
+        return {"error": str(e)}
+
+# 🛠️ Temporary Debug Route
+@router.get("/debug/all-homes")
+def debug_homes():
     homes = list(db.homes.find())
-
-    for home in homes:
-        home["_id"] = str(home["_id"])
-        home["host_id"] = str(home["host_id"])
-
+    for h in homes:
+        h["_id"] = str(h["_id"])
+        h["host_id"] = str(h.get("host_id", ""))
     return homes
 
 
 # ✅ Get Single Home
 @router.get("/{home_id}")
 def get_home(home_id: str):
+    if not ObjectId.is_valid(home_id):
+        raise HTTPException(status_code=400, detail="Invalid property ID format")
 
     home = db.homes.find_one({"_id": ObjectId(home_id)})
 
     if not home:
         raise HTTPException(status_code=404, detail="Home not found")
 
-    home["_id"] = str(home["_id"])
-    home["host_id"] = str(home["host_id"])
+    # Populate host details
+    host = db.users.find_one({"_id": home["host_id"]}, {"name": 1, "profile_image": 1, "profile_picture": 1, "is_verified": 1, "trust_score": 1})
+    if host:
+        home["host_details"] = {
+            "name": host.get("name", "Unknown"),
+            "profile_image": host.get("profile_image") or host.get("profile_picture", ""),
+            "is_verified": host.get("is_verified", False),
+            "trust_score": host.get("trust_score", 0)
+        }
 
-    return home
+    return _serialize_home(home)
 
 # ✅ Update Single Home
 @router.put("/{home_id}")
 def update_home(home_id: str, updated_data: dict, user_id: str = Depends(get_current_user)):
+    if not ObjectId.is_valid(home_id):
+        raise HTTPException(status_code=400, detail="Invalid property ID format")
+    
     # Verify home exists and belongs to host
     home = db.homes.find_one({"_id": ObjectId(home_id)})
     if not home:
@@ -115,6 +264,7 @@ def update_home(home_id: str, updated_data: dict, user_id: str = Depends(get_cur
         "beds": updated_data.get("beds", home.get("beds")),
         "bathrooms": updated_data.get("bathrooms", home.get("bathrooms")),
         "amenities": updated_data.get("amenities", home.get("amenities")),
+        "rent_type": updated_data.get("rent_type", home.get("rent_type", "nightly")),
         "images": updated_data.get("images", home.get("images")),
         "caretaker_info": updated_data.get("caretaker_info", home.get("caretaker_info")),
         "updated_at": datetime.utcnow()
@@ -131,6 +281,9 @@ def update_home(home_id: str, updated_data: dict, user_id: str = Depends(get_cur
 # ✅ Delete Home (Protected)
 @router.delete("/{home_id}")
 def delete_home(home_id: str, user_id: str = Depends(get_current_user)):
+    if not ObjectId.is_valid(home_id):
+        raise HTTPException(status_code=400, detail="Invalid property ID format")
+
     # Verify home exists and belongs to host
     home = db.homes.find_one({"_id": ObjectId(home_id)})
     if not home:

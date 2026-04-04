@@ -60,6 +60,17 @@ def create_booking(data: dict, user_id: str = Depends(get_current_user)):
 
     result = db.bookings.insert_one(booking)
 
+    # 💰 Record Transaction
+    transaction = {
+        "user_id": ObjectId(user_id),
+        "amount": float(total_price),
+        "type": "booking",
+        "status": "success",
+        "booking_id": result.inserted_id,
+        "created_at": datetime.utcnow()
+    }
+    db.transactions.insert_one(transaction)
+
     return {
         "message": "Booking confirmed",
         "booking_id": str(result.inserted_id),

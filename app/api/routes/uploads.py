@@ -3,9 +3,6 @@ from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
 import cloudinary
 import cloudinary.uploader
 from app.core.dependencies import get_current_user
-from dotenv import load_dotenv
-
-load_dotenv()
 
 router = APIRouter()
 
@@ -59,3 +56,19 @@ async def upload_profile_image(file: UploadFile = File(...), user_id: str = Depe
         raise he
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Image upload failed: {str(e)}")
+
+@router.post("/identity")
+async def upload_identity_document(file: UploadFile = File(...), user_id: str = Depends(get_current_user)):
+    try:
+        validate_image(file)
+        # Documents are unique uploads, not overwriting
+        result = cloudinary.uploader.upload(
+            file.file,
+            folder="travelbnb/identity",
+            resource_type="auto"
+        )
+        return {"url": result.get("secure_url")}
+    except HTTPException as he:
+        raise he
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Identity document upload failed: {str(e)}")

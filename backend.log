@@ -1,0 +1,657 @@
+INFO:     Will watch for changes in these directories: ['/Users/tushaarrohatgi/Developer/BNB NEW/TRAVELBNB BACKEND']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [4525] using StatReload
+INFO:     Started server process [4527]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'app/api/routes/auth.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [4527]
+INFO:     Started server process [4539]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'app/api/routes/auth.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [4539]
+INFO:     Started server process [4547]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+/Users/tushaarrohatgi/Developer/BNB NEW/TRAVELBNB BACKEND/venv/lib/python3.13/site-packages/jwt/api_jwt.py:147: InsecureKeyLengthWarning: The HMAC key is 17 bytes long, which is below the minimum recommended length of 32 bytes for SHA256. See RFC 7518 Section 3.2.
+  return self._jws.encode(
+DEBUG: Registering user: test3@example.com
+DEBUG: Hashing password
+DEBUG: Inserting user into DB
+DEBUG: User inserted
+DEBUG: Generating verification token
+DEBUG: Sending verification email
+Resend Error: You can only send testing emails to your own email address (hitushaar@gmail.com). To send emails to other recipients, please verify a domain at resend.com/domains, and change the `from` address to an email using this domain.
+DEBUG: Email task finished
+INFO:     127.0.0.1:52690 - "POST /auth/register HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'app/api/routes/auth.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [4547]
+INFO:     Started server process [4581]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'app/api/routes/auth.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [4581]
+INFO:     Started server process [4589]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:53530 - "POST /auth/register HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:53664 - "POST /auth/register HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:53738 - "OPTIONS /otp/login-otp HTTP/1.1" 200 OK
+
+==================================================
+🔑 LOGIN OTP for +918888888888: 730623
+==================================================
+
+INFO:     127.0.0.1:53738 - "POST /otp/login-otp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53739 - "OPTIONS /otp/verify-otp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53739 - "POST /otp/verify-otp HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:53739 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:53739 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
+✅ Successfully fetched 1 homes
+INFO:     127.0.0.1:53739 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
+🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
+✅ Successfully fetched 1 homes
+INFO:     127.0.0.1:53826 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
+🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
+✅ Successfully fetched 1 homes
+INFO:     127.0.0.1:53908 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54169 - "OPTIONS /otp/login-otp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54169 - "POST /otp/login-otp HTTP/1.1" 404 Not Found
+
+==================================================
+🔑 LOGIN OTP for +918888888888: 759739
+==================================================
+
+INFO:     127.0.0.1:54170 - "POST /otp/login-otp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54173 - "OPTIONS /otp/verify-otp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54173 - "POST /otp/verify-otp HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54173 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54173 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
+✅ Successfully fetched 1 homes
+INFO:     127.0.0.1:54173 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54174 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54174 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54175 - "GET /api/trips/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54175 - "GET /api/trips/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54175 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54175 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
+✅ Successfully fetched 1 homes
+INFO:     127.0.0.1:54175 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54177 - "OPTIONS /bookings/user/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54178 - "OPTIONS /bookings/user/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54175 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54178 - "GET /bookings/user/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54175 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54178 - "GET /bookings/user/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54178 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54178 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
+✅ Successfully fetched 1 homes
+INFO:     127.0.0.1:54178 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54236 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54235 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54235 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54236 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54235 - "GET /crashpads/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54236 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54235 - "GET /crashpads/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54236 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54236 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54236 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54237 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54237 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
+✅ Successfully fetched 1 homes
+INFO:     127.0.0.1:54237 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54629 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54629 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
+✅ Successfully fetched 1 homes
+INFO:     127.0.0.1:54629 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54634 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54634 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54634 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54634 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
+✅ Successfully fetched 1 homes
+INFO:     127.0.0.1:54636 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
+🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=price_asc
+✅ Successfully fetched 1 homes
+INFO:     127.0.0.1:54735 - "GET /homes/?minPrice=0&maxPrice=10000&sort=price_asc HTTP/1.1" 200 OK
+🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
+✅ Successfully fetched 1 homes
+INFO:     127.0.0.1:54735 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54737 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54735 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54737 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54735 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54741 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:54741 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
+✅ Successfully fetched 1 homes
+INFO:     127.0.0.1:54741 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55002 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55002 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
+✅ Successfully fetched 1 homes
+INFO:     127.0.0.1:55002 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55032 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
+✅ Successfully fetched 1 homes
+INFO:     127.0.0.1:55032 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55105 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55105 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
+✅ Successfully fetched 1 homes
+INFO:     127.0.0.1:55105 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55110 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55110 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55110 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55110 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
+✅ Successfully fetched 1 homes
+INFO:     127.0.0.1:55110 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55110 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55111 - "GET /crashpads/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55110 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55111 - "GET /crashpads/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55110 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55111 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55110 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55111 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55111 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55111 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
+✅ Successfully fetched 1 homes
+INFO:     127.0.0.1:55111 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
+🔍 Fetching homes: 4400.0-10000.0, type=None, amenities=None, sort=newest
+✅ Successfully fetched 0 homes
+INFO:     127.0.0.1:55112 - "GET /homes/?minPrice=4400&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
+🔍 Fetching homes: 8600.0-10000.0, type=None, amenities=None, sort=newest
+✅ Successfully fetched 0 homes
+INFO:     127.0.0.1:55112 - "GET /homes/?minPrice=8600&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
+🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
+✅ Successfully fetched 1 homes
+INFO:     127.0.0.1:55112 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55181 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55276 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55276 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55276 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55276 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55362 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55362 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55362 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55362 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55362 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55362 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55376 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55376 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55389 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55389 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55389 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55389 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55389 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55389 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55389 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55435 - "OPTIONS /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User updated: kartik sharma
+INFO:     127.0.0.1:55435 - "PUT /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55435 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55435 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55436 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55436 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55436 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55436 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User updated: kartik sharma
+INFO:     127.0.0.1:55436 - "PUT /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User updated: kartik sharma
+INFO:     127.0.0.1:55437 - "PUT /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55437 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55437 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55438 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55438 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55438 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55438 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User updated: kartik sharma
+INFO:     127.0.0.1:55439 - "PUT /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55439 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55439 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55444 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55444 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55444 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55445 - "GET /crashpads/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55445 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55444 - "GET /crashpads/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55444 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55445 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55445 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55444 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55444 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55444 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55450 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55451 - "GET /crashpads/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55450 - "GET /crashpads/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55451 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55453 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55452 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55453 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55452 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55452 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55452 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55456 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55457 - "GET /api/messages/conversations/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55457 - "GET /api/messages/conversations/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55456 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55457 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55456 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55457 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55456 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55456 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55456 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55456 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55456 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55458 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55458 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55481 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55481 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55575 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55575 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55575 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55575 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55590 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55590 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55591 - "GET /crashpads/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55591 - "GET /crashpads/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55591 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55590 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55590 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55591 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55590 - "GET /crashpads/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55591 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55591 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55590 - "GET /crashpads/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55590 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55591 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55590 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55591 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55591 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55590 - "GET /crashpads/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55591 - "GET /crashpads/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55590 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55591 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55590 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55590 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55591 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55598 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55598 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55602 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55603 - "GET /api/trips/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55602 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55603 - "GET /api/trips/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55606 - "OPTIONS /bookings/user/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55607 - "OPTIONS /bookings/user/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55605 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55606 - "GET /bookings/user/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55605 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55606 - "GET /bookings/user/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55608 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55609 - "GET /api/trips/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55609 - "GET /api/trips/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55608 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55617 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55617 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55617 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55617 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55618 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55618 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55639 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55639 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55639 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55640 - "GET /crashpads/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55639 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55640 - "GET /crashpads/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55640 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55639 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55640 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55639 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55639 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55639 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55681 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55681 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55698 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55698 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55698 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55698 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55776 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55776 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55776 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55776 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55786 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55786 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55907 - "GET /api/trips/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55907 - "GET /api/trips/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55911 - "OPTIONS /bookings/user/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55912 - "OPTIONS /bookings/user/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55910 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55911 - "GET /bookings/user/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55910 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55911 - "GET /bookings/user/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "GET /crashpads/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55926 - "GET /crashpads/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55974 - "GET /crashpads/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55973 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55973 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55974 - "GET /crashpads/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55997 - "GET /crashpads/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55996 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:55997 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55996 - "GET /crashpads/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:56183 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56182 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56183 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:56182 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:56193 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:56193 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:56219 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56297 - "GET /crashpads/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56297 - "GET /crashpads/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /crashpads/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "GET /crashpads/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56316 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56316 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'app/api/routes/homes.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [4589]
+INFO:     Started server process [6030]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:56381 - "GET /crashpads/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56381 - "GET /crashpads/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56435 - "GET /crashpads/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56435 - "GET /crashpads/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56442 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56442 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56549 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56549 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56549 - "GET /crashpads/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56549 - "GET /crashpads/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56551 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56551 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56628 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56663 - "GET /crashpads/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56663 - "GET /crashpads/ HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:57116 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:57116 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:57206 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:57206 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57392 - "OPTIONS /upload/property HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57393 - "OPTIONS /upload/property HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57394 - "OPTIONS /upload/property HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57395 - "OPTIONS /upload/property HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57393 - "POST /upload/property HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57394 - "POST /upload/property HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57392 - "POST /upload/property HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57395 - "POST /upload/property HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:57402 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:57425 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:57425 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:57665 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:57665 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:61960 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:61960 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:63022 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:63022 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:63499 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:63499 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:63979 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:63979 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:64059 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:64059 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:64960 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:64960 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:49321 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:49321 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:50549 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:50549 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+❌ Backend error fetching user: ac-tg4u8fi-shard-00-01.pgc8x5d.mongodb.net:27017: [Errno 8] nodename nor servname provided, or not known (configured timeouts: connectTimeoutMS: 20000.0ms)
+INFO:     127.0.0.1:51460 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 404 Not Found
+✅ User fetched for navbar: kartik sharma
+INFO:     127.0.0.1:51442 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [6030]
+INFO:     Stopping reloader process [4525]

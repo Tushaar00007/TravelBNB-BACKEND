@@ -9,11 +9,17 @@ router = APIRouter()
 
 
 # ─── Helpers ──────────────────────────────────────────────────────────────────
-
-def serialize_buddy(doc: dict) -> dict:
-    """Convert MongoDB document to JSON-serialisable dict."""
+def _serialize_buddy(doc: dict):
+    if not doc: return None
     doc["id"] = str(doc.pop("_id"))
     doc["user_id"] = str(doc["user_id"])
+    
+    # Enrichment: Add owner verification status
+    owner = db.users.find_one({"_id": ObjectId(doc["user_id"])}, {"is_verified": 1, "trust_score": 1})
+    if owner:
+        doc["user_verified"] = owner.get("is_verified", False)
+        doc["user_trust_score"] = owner.get("trust_score", 0)
+    
     return doc
 
 
@@ -86,6 +92,20 @@ def create_travel_buddy(data: dict, user_id: str = Depends(get_current_user)):
         raise HTTPException(
             status_code=422,
             detail=f"Missing required fields: {', '.join(missing)}"
+        )
+
+    # 🔒 Safety Gate: Check Trust Score and Verification
+    full_user = db.users.find_one({"_id": ObjectId(user_id)})
+    if not full_user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    trust_score = full_user.get("trust_score", 0)
+    is_verified = full_user.get("is_verified", False)
+
+    if trust_score < 60 or not is_verified:
+        raise HTTPException(
+            status_code=403, 
+            detail="Travel Buddy access restricted. You need a Trust Score > 60 and a Verified ID. Try verifying your identity in Profile settings."
         )
 
     # Validate dates

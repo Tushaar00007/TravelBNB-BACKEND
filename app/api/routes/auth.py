@@ -1,37 +1,83 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends, Form, File, UploadFile
+import cloudinary
+import cloudinary.uploader
 from app.core.database import db
 from app.utils.security import hash_password, verify_password, create_access_token
-from datetime import datetime
+from datetime import datetime, timedelta
+import secrets
+from app.utils.email import send_verification_email, generate_verification_token, verify_verification_token
+from app.core.dependencies import get_current_user
 from bson import ObjectId
 import os
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
 
+# Initialize Cloudinary
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET")
+)
+
 router = APIRouter()
 
 @router.post("/register")
-def register(user: dict):
-    existing_user = db.users.find_one({"email": user["email"]})
-    if existing_user:
+async def register(
+    name: str = Form(...),
+    email: str = Form(...),
+    phone: str = Form(...),
+    password: str = Form(...),
+    profile_image: UploadFile = File(None)
+):
+    # Check if email exists
+    if db.users.find_one({"email": email}):
         raise HTTPException(status_code=400, detail="Email already exists")
+    
+    # Check if phone exists (to prevent 500 DuplicateKeyError)
+    if db.users.find_one({"phone": phone}):
+        raise HTTPException(status_code=400, detail="Phone number already registered")
 
-    hashed_pw = hash_password(user["password"])
+    hashed_pw = hash_password(password)
+
+    # Handle Profile Image Upload
+    image_url = ""
+    if profile_image:
+        try:
+            result = cloudinary.uploader.upload(profile_image.file, folder="travelbnb/profiles")
+            image_url = result.get("secure_url")
+        except Exception as e:
+            print(f"Cloudinary Error: {e}")
 
     new_user = {
-        "name": user["name"],
-        "email": user["email"],
-        "phone": user["phone"],
+        "name": name,
+        "email": email,
+        "phone": phone,
         "password": hashed_pw,
-        "role": user.get("role", "guest"),
-        "profile_image": "",
+        "role": "guest",
+        "profile_image": image_url,
         "is_verified": False,
+        "id_document": "",
+        "selfie_image": "",
+        "auth_provider": "email",
+        "is_email_verified": False,
+        "is_phone_verified": False,
+        "email_verification_token": secrets.token_urlsafe(32),
+        "token_expiry": datetime.utcnow() + timedelta(hours=24),
+        "trust_score": 0,
         "created_at": datetime.utcnow(),
         "updated_at": datetime.utcnow()
     }
 
     db.users.insert_one(new_user)
+    
+    # Send Verification Email
+    token = generate_verification_token(email)
+    email_sent = send_verification_email(email, name, token)
 
-    return {"message": "User registered successfully"}
+    if not email_sent:
+        print(f"Verification email send failed for {email}")
+
+    return {"message": "User registered successfully. Please check your email to verify your account."}
 
 @router.post("/login")
 def login(user: dict):
@@ -82,6 +128,9 @@ def google_login(payload: dict):
                 "phone": phone,
                 "profile_image": picture,
                 "role": "guest",
+                "auth_provider": "google",
+                "is_email_verified": True,
+                "is_phone_verified": False,
                 "is_verified": True,
                 "created_at": datetime.utcnow(),
                 "updated_at": datetime.utcnow()
@@ -90,11 +139,17 @@ def google_login(payload: dict):
             user_id = str(result.inserted_id)
         else:
             user_id = str(db_user["_id"])
-            # If user exists but has no phone, and phone is provided now, update it
-            if not db_user.get("phone"):
-                if not phone:
-                    return {"needs_phone": True}
-                db.users.update_one({"_id": db_user["_id"]}, {"$set": {"phone": phone}})
+            # If user exists but fields are missing/outdated
+            update_fields = {}
+            if not db_user.get("phone") and phone:
+                update_fields["phone"] = phone
+            if not db_user.get("auth_provider"):
+                update_fields["auth_provider"] = "google"
+            if not db_user.get("is_email_verified"):
+                update_fields["is_email_verified"] = True
+            
+            if update_fields:
+                db.users.update_one({"_id": db_user["_id"]}, {"$set": update_fields})
 
         # Create our own JWT
         jwt_token = create_access_token({"user_id": user_id})
@@ -165,6 +220,10 @@ def update_user(user_id: str, payload: dict):
             update_data["preferences"] = payload["preferences"]
         if "profile_picture" in payload:
             update_data["profile_picture"] = payload["profile_picture"]
+        if "id_document" in payload:
+            update_data["id_document"] = payload["id_document"]
+        if "selfie_image" in payload:
+            update_data["selfie_image"] = payload["selfie_image"]
         
         if update_data:
             update_data["updated_at"] = datetime.utcnow()
@@ -220,3 +279,52 @@ def update_password(user_id: str, payloads: dict):
     except Exception as e:
         print(f"❌ Backend error updating password: {e}")
         raise HTTPException(status_code=500, detail="Failed to update password")
+
+# ========================
+# EMAIL VERIFICATION
+# ========================
+@router.get("/verify-email")
+def verify_email(token: str):
+    email = verify_verification_token(token)
+
+    if not email:
+        raise HTTPException(status_code=400, detail="Invalid or expired token")
+
+    user = db.users.find_one({"email": email})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    if user.get("is_email_verified"):
+        return {"message": "Email already verified"}
+
+    db.users.update_one(
+        {"_id": user["_id"]},
+        {
+            "$set": {
+                "is_email_verified": True,
+                "trust_score": user.get("trust_score", 0) + 10,
+                "updated_at": datetime.utcnow()
+            }
+        }
+    )
+    return {"message": "Email verified! +10 Trust Points earned."}
+
+@router.post("/resend-verification")
+def resend_verification(payload: dict = None, user_id: str = Depends(get_current_user)):
+    user = db.users.find_one({"_id": ObjectId(user_id)})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    if user.get("auth_provider") == "google":
+        return {"message": "Google users are automatically verified"}
+    
+    if user.get("is_email_verified"):
+        return {"message": "Email is already verified"}
+
+    token = generate_verification_token(user["email"])
+    email_sent = send_verification_email(user["email"], user["name"], token)
+
+    if not email_sent:
+        raise HTTPException(status_code=500, detail="Failed to send verification email")
+    
+    return {"message": "Verification email resent"}
