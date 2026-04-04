@@ -1,0 +1,33 @@
+# Git
+.git
+.gitignore
+
+# Python cache
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.egg-info
+.eggs
+
+# Virtual environment
+venv/
+env/
+.env.example
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+
+# Logs
+*.log
+backend.log
+
+# Test / dev scripts
+test_*.py
+migrate_*.py
+
+# Docker itself
+Dockerfile
+.dockerignore
