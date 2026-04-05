@@ -1,15 +1,24 @@
-import httpx
-from typing import Dict, Any, Optional
 import logging
+import os
+from typing import Any, Dict, Optional
+
+import httpx
 
 logger = logging.getLogger(__name__)
+
+ML_BASE_URL = os.getenv("ML_BASE_URL", "https://ai-travel-planner-txji.onrender.com").rstrip("/")
+
+
+def _ml_endpoint(path: str = "") -> str:
+    normalized_path = path.lstrip("/")
+    return f"{ML_BASE_URL}/{normalized_path}" if normalized_path else ML_BASE_URL
 
 async def get_itinerary_async(location: str, days: int, start_date: str, preferences: Optional[dict] = None) -> Dict[str, Any]:
     """
     Asynchronously calls the ML model to generate an itinerary.
-    The ML model is expected to be running on localhost:9000.
+    The ML model base URL is configured via ML_BASE_URL.
     """
-    url = "http://localhost:9000/generate_itinerary"
+    url = _ml_endpoint("/generate_itinerary")
 
     payload = {
         "location": location,
@@ -26,7 +35,7 @@ async def get_itinerary_async(location: str, days: int, start_date: str, prefere
 
     async with httpx.AsyncClient() as client:
         try:
-            response = await client.post(url, json=payload, headers=headers)
+            response = await client.post(url, json=payload, headers=headers, timeout=120.0)
             response.raise_for_status()
             logger.info("Successfully received itinerary from ML model.")
             return response.json()
@@ -39,7 +48,7 @@ async def download_itinerary_pdf_async(location: str, days: int, start_date: str
     Asynchronously calls the ML model to generate an itinerary PDF.
     Returns a BytesIO stream of the PDF.
     """
-    url = "http://localhost:9000/download_pdf"
+    url = _ml_endpoint("/download_pdf")
 
     payload = {
         "location": location,
@@ -67,7 +76,7 @@ async def forward_chat_async(message: str) -> Dict[str, Any]:
     """
     Forwards a chat message to the ML model's travel assistant endpoint.
     """
-    url = "http://localhost:9000/chat_travel_assistant"
+    url = _ml_endpoint("/chat_travel_assistant")
 
     payload = {"message": message}
 
