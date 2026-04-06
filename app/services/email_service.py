@@ -1,6 +1,6 @@
 import resend
 import os
-from app.utils.email_template import verification_email_template, otp_email_template
+from app.utils.email_template import verification_email_template, otp_email_template, password_reset_email_template
 
 resend.api_key = os.getenv("RESEND_API_KEY")
 
@@ -41,5 +41,15 @@ def send_otp_email(to_email: str, otp: str, purpose="verification"):
     return send_email(
         to_email,
         "Your TravelBNB OTP Code",
+        html
+    )
+
+
+def send_password_reset_email(to_email: str, name: str, token: str):
+    html = password_reset_email_template(name, token)
+
+    return send_email(
+        to_email,
+        "Reset your TravelBNB password",
         html
     )

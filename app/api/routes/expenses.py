@@ -1,5 +1,6 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from app.core.database import db
+from app.core.dependencies import get_current_user
 from app.utils.trip_helpers import to_oid, log_activity
 from bson import ObjectId
 from datetime import datetime, timezone
@@ -48,27 +49,40 @@ def calculate_owe(expenses: list[dict]) -> dict:
 # ─── POST /api/trips/{trip_id}/expenses ─────────────────────────────────────
 
 @router.post("/{trip_id}/expenses")
-def add_expense(trip_id: str, payload: dict):
+def add_expense(trip_id: str, payload: dict, current_user: str = Depends(get_current_user)):
     trip_oid = to_oid(trip_id, "trip_id")
 
     trip = db.trips.find_one({"_id": trip_oid})
     if not trip:
         raise HTTPException(status_code=404, detail="Trip not found")
+    
+    # AUTH: Only trip members can add expenses
+    if ObjectId(current_user) not in trip.get("members", []):
+        raise HTTPException(status_code=403, detail="Not authorized to access this trip")
 
     title = payload.get("title", "").strip()
     amount = payload.get("amount")
-    paid_by_str = payload.get("paid_by", "")
+    paid_by_str = payload.get("paid_by", current_user)
     split_between_strs = payload.get("split_between", [])
 
-    if not title or amount is None or not paid_by_str:
-        raise HTTPException(status_code=400, detail="title, amount, paid_by are required")
+    if not title or amount is None:
+        raise HTTPException(status_code=400, detail="title and amount are required")
 
     paid_by_oid = to_oid(paid_by_str, "paid_by")
-    split_oids = [to_oid(uid, "split_between user") for uid in split_between_strs]
+    
+    # VALIDATION: Payer must be in trip
+    if paid_by_oid not in trip.get("members", []):
+        raise HTTPException(status_code=400, detail="Payer is not a member of this trip")
 
     # Default: split among all members if not specified
-    if not split_oids:
+    if not split_between_strs:
         split_oids = list(trip.get("members", []))
+    else:
+        split_oids = [to_oid(uid, "split_between user") for uid in split_between_strs]
+        # VALIDATION: All split users must be in trip
+        for soid in split_oids:
+            if soid not in trip.get("members", []):
+                raise HTTPException(status_code=400, detail="One or more split users are not in this trip")
 
     expense_doc = {
         "trip_id": trip_oid,
@@ -92,8 +106,16 @@ def add_expense(trip_id: str, payload: dict):
 # ─── GET /api/trips/{trip_id}/expenses ──────────────────────────────────────
 
 @router.get("/{trip_id}/expenses")
-def get_expenses(trip_id: str):
+def get_expenses(trip_id: str, current_user: str = Depends(get_current_user)):
     trip_oid = to_oid(trip_id, "trip_id")
+
+    trip = db.trips.find_one({"_id": trip_oid})
+    if not trip:
+        raise HTTPException(status_code=404, detail="Trip not found")
+    
+    # AUTH
+    if ObjectId(current_user) not in trip.get("members", []):
+        raise HTTPException(status_code=403, detail="Not authorized")
 
     expenses = list(db.expenses.find({"trip_id": trip_oid}).sort("created_at", 1))
     serialized = [serialize_expense(e) for e in expenses]

@@ -16,8 +16,26 @@ router = APIRouter()
 
 def serialize_crashpad(doc: dict) -> dict:
     """Convert MongoDB document to JSON-serialisable dict."""
-    doc["id"] = str(doc.pop("_id"))
+    doc["_id"] = str(doc["_id"])
+    doc["id"] = doc["_id"]
     doc["host_id"] = str(doc["host_id"])
+    
+    # Standardise images
+    images = doc.get("images", [])
+    full_images = []
+    for img in images:
+        if isinstance(img, str):
+            if img.startswith("http"):
+                full_images.append(img)
+            else:
+                full_images.append(f"http://localhost:8000/uploads/{img}")
+        elif isinstance(img, dict):
+            url = img.get("url") or img.get("secure_url", "")
+            if url: full_images.append(url)
+            
+    doc["images"] = full_images
+    doc["image"] = full_images[0] if full_images else ""
+    
     return doc
 
 
@@ -134,18 +152,25 @@ def get_all_crashpads(
 @router.get("/search")
 def search_crashpads(
     city: Optional[str] = Query(None),
-    state: Optional[str] = Query(None)
+    state: Optional[str] = Query(None),
+    guests: Optional[int] = Query(None),
 ):
-    """Search crashpads ONLY based on city and state stored in the DB."""
-    query: dict = {"status": "approved"}
+    """Search crashpads based on city, state, and guest count."""
+    print(f"🔍 Search crashpads: city={city}, state={state}, guests={guests}")
+    query: dict = {"status": "approved", "is_active": True}
     
     if city:
-        query["location.city"] = {"$regex": f"^{city}", "$options": "i"}
+        query["location.city"] = {"$regex": f"^{city}$", "$options": "i"}
     
     if state:
-        query["location.state"] = {"$regex": f"^{state}", "$options": "i"}
-        
+        query["location.state"] = {"$regex": f"^{state}$", "$options": "i"}
+
+    if guests:
+        query["max_guests"] = {"$gte": int(guests)}
+
+    print(f"📋 MongoDB filter: {query}")
     results = list(db.crashpads_listings.find(query).sort("created_at", -1))
+    print(f"✅ Results found: {len(results)} crashpads")
     return [serialize_crashpad(r) for r in results]
 
 
@@ -196,6 +221,7 @@ async def create_crashpad(
     languages: str = Form("[]"),
     house_rules: str = Form("[]"),
     preferences: str = Form("[]"),
+    image_urls: str = Form("[]"),
     images: List[UploadFile] = File([]),
     user_id: str = Depends(get_current_user)
 ):
@@ -210,7 +236,12 @@ async def create_crashpad(
     if len(host_bio) > 200:
         raise HTTPException(status_code=400, detail="Host bio cannot exceed 200 characters")
 
-    image_urls = []
+    image_urls_final = []
+    try:
+        image_urls_final = json.loads(image_urls)
+    except:
+        image_urls_final = []
+
     for image in images:
         try:
             if not image.content_type.startswith("image/"):
@@ -220,7 +251,7 @@ async def create_crashpad(
                 folder="travelbnb/crashpads",
                 resource_type="auto"
             )
-            image_urls.append(result.get("secure_url"))
+            image_urls_final.append(result.get("secure_url"))
         except Exception as e:
             print(f"Error uploading image to Cloudinary: {str(e)}")
 
@@ -262,7 +293,7 @@ async def create_crashpad(
         "preferences": preferences_list,
         "is_free": is_free,
         "price_per_night": price_per_night,
-        "images": image_urls,
+        "images": image_urls_final,
         "is_active": True,
         "status": "pending",
         "created_at": now,
@@ -274,7 +305,7 @@ async def create_crashpad(
         "message": "Crashpad created successfully",
         "id": str(result.inserted_id),
         "crashpad_id": short_id,
-        "images": image_urls
+        "images": image_urls_final
     }
 
 
@@ -299,7 +330,8 @@ def get_crashpad(crashpad_id: str):
 @router.get("/me")
 def get_my_crashpads(user_id: str = Depends(get_current_user)):
     """Return all crashpads belonging to the authenticated user."""
-    query = {"host_id": ObjectId(user_id)}
+    uid = ObjectId(user_id)
+    query = {"$or": [{"host_id": uid}, {"host_id": user_id}]}
     crashpads = list(db.crashpads_listings.find(query).sort("created_at", -1))
     return [serialize_crashpad(c) for c in crashpads]
 
@@ -309,7 +341,8 @@ async def check_is_host(user_id: str):
     """Verify if a user has any crashpad listings."""
     try:
         uid = ObjectId(user_id)
-        crashpad = db.crashpads_listings.find_one({"host_id": uid})
+        query = {"$or": [{"host_id": uid}, {"host_id": user_id}]}
+        crashpad = db.crashpads_listings.find_one(query)
         return {"isHost": True if crashpad else False}
     except Exception:
         return {"isHost": False}

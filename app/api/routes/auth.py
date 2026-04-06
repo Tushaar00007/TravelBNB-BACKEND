@@ -11,6 +11,8 @@ from bson import ObjectId
 import os
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
+from app.models.schemas import LoginSchema, ForgotPasswordRequest, ResetPasswordRequest
+from app.services.email_service import send_password_reset_email
 
 # Initialize Cloudinary
 cloudinary.config(
@@ -80,18 +82,107 @@ async def register(
     return {"message": "User registered successfully. Please check your email to verify your account."}
 
 @router.post("/login")
-def login(user: dict):
-    db_user = db.users.find_one({"email": user["email"]})
-
-    if not db_user:
-        raise HTTPException(status_code=400, detail="Invalid credentials")
-
-    if not verify_password(user["password"], db_user["password"]):
-        raise HTTPException(status_code=400, detail="Invalid credentials")
-
-    token = create_access_token({"user_id": str(db_user["_id"])})
-
-    return {"access_token": token}
+async def login(credentials: LoginSchema):
+    try:
+        print(f"DEBUG: Login attempt for: {credentials.email}")
+        
+        # Find user
+        db_user = db.users.find_one({"email": credentials.email})
+        print(f"DEBUG: User found in DB: {db_user is not None}")
+        
+        if not db_user:
+            print(f"DEBUG: No user found with email {credentials.email}")
+            raise HTTPException(
+                status_code=401, 
+                detail="Invalid email or password"
+            )
+        
+        # Verify password
+        stored_password = db_user.get("password", "")
+        print(f"DEBUG: Stored hash starts with: {stored_password[:10]}")
+        
+        # Check if password is valid bcrypt hash format
+        if not (stored_password.startswith("$2b$") or stored_password.startswith("$2a$")):
+            print(f"INVALID HASH FORMAT for {credentials.email}")
+            raise HTTPException(
+                status_code=401,
+                detail="Account password format is outdated. Please reset your password using Forgot Password."
+            )
+        
+        try:
+            is_valid = verify_password(credentials.password, stored_password)
+            print(f"DEBUG: Password verification result: {is_valid}")
+        except Exception as hash_err:
+            print(f"Hash verification error for {credentials.email}: {hash_err}")
+            raise HTTPException(
+                status_code=401,
+                detail="Account password is corrupted. Please use Forgot Password to set a new one."
+            )
+        
+        if not is_valid:
+            print(f"DEBUG: Password mismatch for user {credentials.email}")
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid email or password"
+            )
+        
+        # Create access token
+        user_id = str(db_user["_id"])
+        token = create_access_token({"user_id": user_id})
+        print(f"DEBUG: Access token generated for user_id: {user_id}")
+        
+        # Improved host detection: Include admins/super_admins and users with listings in any collection
+        user_id_str = str(db_user["_id"])
+        user_oid = db_user["_id"]
+        
+        id_query = {
+            "$or": [
+                {"host_id": user_oid},
+                {"host_id": user_id_str},
+                {"user_id": user_oid},
+                {"user_id": user_id_str},
+            ]
+        }
+        
+        has_home = db.properties.find_one(id_query) is not None
+        has_crashpad = db.crashpads_listings.find_one(id_query) is not None
+        has_buddy = db.buddy_applications.find_one(id_query) is not None
+        
+        role = db_user.get("role", "guest")
+        is_host = (
+            role in ["host", "super_admin", "admin"] or
+            has_home or has_crashpad or has_buddy
+        )
+        
+        print(f"DEBUG: is_host for {db_user.get('email')}: {is_host} (role:{role} home:{has_home} crashpad:{has_crashpad})")
+        
+        response_data = {
+            "access_token": token,
+            "token_type": "bearer",
+            "user": {
+                "id": user_id_str,
+                "name": db_user.get("name", ""),
+                "email": db_user.get("email", ""),
+                "profile_image": db_user.get("profile_image", "") or db_user.get("avatar", ""),
+                "is_host": is_host,
+                "role": role,
+                "is_verified": db_user.get("is_verified", False),
+            }
+        }
+        print(f"DEBUG: Login successful for {credentials.email}")
+        return response_data
+        
+    except HTTPException:
+        # Re-raise HTTP exceptions to maintain specific error codes
+        raise
+    except Exception as e:
+        import traceback
+        print(f"ERROR: Unexpected login crash: {str(e)}")
+        print(traceback.format_exc())
+        raise HTTPException(
+            status_code=500, 
+            detail=f"Internal Server Error: {str(e)}"
+        )
 
 
 # ========================
@@ -154,13 +245,18 @@ def google_login(payload: dict):
         # Create our own JWT
         jwt_token = create_access_token({"user_id": user_id})
 
+        # Simple role-based host detection
+        is_host = db_user.get("role") == "host" if db_user else False
+
         return {
             "access_token": jwt_token,
             "user": {
                 "id": user_id,
                 "name": name,
                 "email": email,
-                "profile_image": picture
+                "profile_image": picture,
+                "is_host": is_host,
+                "role": db_user.get("role", "guest") if db_user else "guest"
             }
         }
 
@@ -175,26 +271,107 @@ def google_login(payload: dict):
 # NEW ROUTE - THIS FIXES THE 404 ERROR
 # ========================
 @router.get("/user/{user_id}")
-def get_user(user_id: str):
+async def get_user(user_id: str):
     try:
-        # Convert string ID to MongoDB ObjectId
-        user = db.users.find_one({"_id": ObjectId(user_id)})
-
+        from bson import ObjectId
+        import traceback
+        
+        print(f"Fetching user: {user_id}")
+        
+        # Try to find by ObjectId
+        try:
+            user = db.users.find_one({"_id": ObjectId(user_id)})
+        except Exception as oid_err:
+            print(f"ObjectId conversion failed: {oid_err}")
+            user = db.users.find_one({"_id": user_id})
+        
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
-
-        # Remove sensitive data before sending to frontend
-        user.pop("password", None)
-
-        # Convert _id to string so React can read it easily
-        user["_id"] = str(user["_id"])
-
-        print(f"✅ User fetched for navbar: {user['name']}")  # you will see this in terminal
-        return user
-
+        
+        # Improved host detection logic
+        user_id_str = str(user["_id"])
+        user_oid = user["_id"]
+        
+        id_query = {
+            "$or": [
+                {"host_id": user_oid},
+                {"host_id": user_id_str},
+                {"user_id": user_oid},
+                {"user_id": user_id_str},
+            ]
+        }
+        
+        has_home = db.properties.find_one(id_query) is not None
+        has_crashpad = db.crashpads_listings.find_one(id_query) is not None
+        has_buddy = db.buddy_applications.find_one(id_query) is not None
+        
+        role = user.get("role", "guest")
+        is_host = (
+            role in ["host", "super_admin", "admin"] or
+            has_home or has_crashpad or has_buddy
+        )
+        print(f"User found: {user.get('name')}, is_host: {is_host}")
+        
+        return {
+            "id": user_id_str,
+            "name": user.get("name", ""),
+            "email": user.get("email", ""),
+            "phone": user.get("phone", ""),
+            "avatar": user.get("profile_image", "") or user.get("avatar", ""),
+            "is_host": is_host,
+            "role": role,
+            "is_verified": user.get("is_verified", False),
+            "created_at": str(user.get("created_at", "")),
+        }
+        
+    except HTTPException:
+        raise
     except Exception as e:
-        print(f"❌ Backend error fetching user: {e}")
-        raise HTTPException(status_code=404, detail="User not found")
+        print(f"Error fetching user {user_id}:")
+        print(traceback.format_exc())
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/me")
+async def get_me(user_id: str = Depends(get_current_user)):
+    try:
+        user = db.users.find_one({"_id": ObjectId(user_id)})
+        if not user:
+            raise HTTPException(status_code=401, detail="User not found")
+        
+        # Improved host detection logic
+        user_id_str = str(user["_id"])
+        user_oid = user["_id"]
+        
+        id_query = {
+            "$or": [
+                {"host_id": user_oid},
+                {"host_id": user_id_str},
+                {"user_id": user_oid},
+                {"user_id": user_id_str},
+            ]
+        }
+        
+        has_home = db.properties.find_one(id_query) is not None
+        has_crashpad = db.crashpads_listings.find_one(id_query) is not None
+        has_buddy = db.buddy_applications.find_one(id_query) is not None
+        
+        role = user.get("role", "guest")
+        is_host = (
+            role in ["host", "super_admin", "admin"] or
+            has_home or has_crashpad or has_buddy
+        )
+        
+        return {
+            "id": user_id_str,
+            "name": user.get("name", ""),
+            "email": user.get("email", ""),
+            "profile_image": user.get("profile_image", "") or user.get("avatar", ""),
+            "is_host": is_host,
+            "role": role,
+        }
+    except Exception as e:
+        print(f"❌ /me error: {e}")
+        raise HTTPException(status_code=401, detail=str(e))
 
 
 # ========================
@@ -328,3 +505,110 @@ def resend_verification(payload: dict = None, user_id: str = Depends(get_current
         raise HTTPException(status_code=500, detail="Failed to send verification email")
     
     return {"message": "Verification email resent"}
+
+# ========================
+# FORGOT & RESET PASSWORD
+# ========================
+@router.post("/forgot-password")
+async def forgot_password(request: ForgotPasswordRequest):
+    try:
+        email = request.email.lower()
+        print(f"DEBUG: Forgot password (DEV MODE) for: {email}")
+        
+        user = db.users.find_one({"email": email})
+        
+        if not user:
+            print(f"DEBUG: [Dev Mode] User not found: {email}")
+            return {
+                "message": "If account exists, reset link generated",
+                "reset_link": None,
+                "dev_mode": True
+            }
+        
+        # Generate token
+        token = secrets.token_urlsafe(32)
+        expiry = datetime.utcnow() + timedelta(hours=1)
+        
+        # Clear old tokens and save new one
+        db.password_resets.delete_many({"email": email})
+        db.password_resets.insert_one({
+            "email": email,
+            "token": token,
+            "expiry": expiry,
+            "used": False,
+            "created_at": datetime.utcnow()
+        })
+        
+        FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+        reset_link = f"{FRONTEND_URL.rstrip('/')}/reset-password?token={token}"
+        
+        print(f"DEBUG: [Dev Mode] Reset link for {email}: {reset_link}")
+        
+        return {
+            "message": "Reset link generated (Dev Mode)",
+            "reset_link": reset_link,
+            "dev_mode": True,
+            "expires_in": "1 hour"
+        }
+        
+    except Exception as e:
+        print(f"ERROR: Forgot password dev-mode logic failed: {str(e)}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+@router.post("/reset-password")
+async def reset_password(request: ResetPasswordRequest):
+    try:
+        token = request.token
+        new_password = request.new_password
+        
+        print(f"DEBUG: Reset attempt with token: {token[:10]}...")
+        
+        # Validate token
+        reset_record = db.password_resets.find_one({
+            "token": token,
+            "used": False
+        })
+        
+        if not reset_record:
+            print(f"DEBUG: Invalid or used token: {token[:10]}...")
+            raise HTTPException(status_code=400, detail="Invalid or expired reset link")
+            
+        if datetime.utcnow() > reset_record["expiry"]:
+            print(f"DEBUG: Expired token for {reset_record['email']}")
+            raise HTTPException(status_code=400, detail="Reset link has expired")
+            
+        # Hash and double-verify before saving (Robustness fix)
+        hashed_pw = hash_password(new_password)
+        print(f"DEBUG: New hash generated for {reset_record['email']}: {hashed_pw[:20]}...")
+        
+        # Pre-save verification test
+        if not verify_password(new_password, hashed_pw):
+            print(f"CRITICAL: Password hashing verification failed for {reset_record['email']}!")
+            raise HTTPException(status_code=500, detail="Internal hashing error. Please try again.")
+
+        # Update in DB
+        result = db.users.update_one(
+            {"email": reset_record["email"]},
+            {"$set": {
+                "password": hashed_pw,
+                "updated_at": datetime.utcnow()
+            }}
+        )
+        print(f"DEBUG: Updated {result.modified_count} user password record")
+        
+        # Mark token as used
+        db.password_resets.update_one(
+            {"token": token},
+            {"$set": {"used": True}}
+        )
+        
+        print(f"SUCCESS: Password reset complete for {reset_record['email']}")
+        return {"message": "Password updated successfully. You can now login."}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        import traceback
+        print(f"ERROR: Reset password system failure: {str(e)}")
+        print(traceback.format_exc())
+        raise HTTPException(status_code=500, detail="Internal server error during password reset")

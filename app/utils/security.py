@@ -7,16 +7,14 @@ SECRET_KEY = os.getenv("JWT_SECRET")
 ALGORITHM = "HS256"
 
 def hash_password(password: str):
-    return bcrypt.hashpw(
-        password.encode("utf-8"),
-        bcrypt.gensalt()
-    ).decode("utf-8")
+    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
-def verify_password(password: str, hashed):
-    return bcrypt.checkpw(
-        password.encode("utf-8"),
-        hashed.encode("utf-8")
-    )
+def verify_password(password: str, hashed_password: str):
+    try:
+        return bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8'))
+    except Exception as e:
+        print(f"Bcrypt verification error: {e}")
+        return False
 
 def create_access_token(data: dict):
     to_encode = data.copy()

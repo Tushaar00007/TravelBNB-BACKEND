@@ -1,657 +1,862 @@
 INFO:     Will watch for changes in these directories: ['/Users/tushaarrohatgi/Developer/BNB NEW/TRAVELBNB BACKEND']
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
-INFO:     Started reloader process [4525] using StatReload
-INFO:     Started server process [4527]
+INFO:     Started reloader process [5445] using StatReload
+INFO:     Started server process [5453]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
-WARNING:  StatReload detected changes in 'app/api/routes/auth.py'. Reloading...
+INFO:     127.0.0.1:62893 - "OPTIONS /api/auth/user/69bef69b26a0c35604d5d5ef HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62892 - "OPTIONS /api/auth/user/69bef69b26a0c35604d5d5ef HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62890 - "OPTIONS /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62888 - "OPTIONS /api/auth/user/69bef69b26a0c35604d5d5ef HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62893 - "OPTIONS /api/host/overview HTTP/1.1" 200 OK
+Fetching user: 69bef69b26a0c35604d5d5ef
+User found: naman jha, is_host: True
+INFO:     127.0.0.1:62892 - "GET /api/auth/user/69bef69b26a0c35604d5d5ef HTTP/1.1" 200 OK
+Fetching user: 69bef69b26a0c35604d5d5ef
+User found: naman jha, is_host: True
+INFO:     127.0.0.1:62892 - "GET /api/auth/user/69bef69b26a0c35604d5d5ef HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62888 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62875 - "OPTIONS /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69bef69b26a0c35604d5d5ef
+User found: naman jha, is_host: True
+INFO:     127.0.0.1:62892 - "GET /api/auth/user/69bef69b26a0c35604d5d5ef HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:62875 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62883 - "OPTIONS /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62882 - "OPTIONS /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62881 - "OPTIONS /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62879 - "OPTIONS /api/host/overview HTTP/1.1" 200 OK
+Fetching user: 69bef69b26a0c35604d5d5ef
+User found: naman jha, is_host: True
+INFO:     127.0.0.1:62892 - "GET /api/auth/user/69bef69b26a0c35604d5d5ef HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:62875 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62888 - "GET /api/host/overview HTTP/1.1" 200 OK
+Fetching user: 69bef69b26a0c35604d5d5ef
+User found: naman jha, is_host: True
+INFO:     127.0.0.1:62892 - "GET /api/auth/user/69bef69b26a0c35604d5d5ef HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:62875 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62879 - "GET /api/host/overview HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:62875 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:62875 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62879 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62865 - "OPTIONS /api/host/dashboard/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62865 - "GET /api/host/dashboard/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63013 - "OPTIONS /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63014 - "OPTIONS /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63014 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63014 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63018 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63018 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63018 - "OPTIONS /api/homes/?minPrice=0&maxPrice=10000&sort=newest&guests=1&city=MUMBAI&state=MAHARASHTRA HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63020 - "OPTIONS /api/crashpads/search?city=MUMBAI&state=MAHARASHTRA&guests=1 HTTP/1.1" 200 OK
+🔍 Search homes: city=MUMBAI, state=MAHARASHTRA, location=None, guests=1, price=0.0-10000.0
+🔍 Search crashpads: city=MUMBAI, state=MAHARASHTRA, guests=1
+📋 MongoDB filter: {'status': 'approved', 'is_active': True, 'location.city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'location.state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+📋 MongoDB filter: {'price_per_night': {'$gte': 0.0, '$lte': 10000.0}, 'status': 'approved', 'is_active': True, 'city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+✅ Results found: 0 homes
+INFO:     127.0.0.1:63018 - "GET /api/homes/?minPrice=0&maxPrice=10000&sort=newest&guests=1&city=MUMBAI&state=MAHARASHTRA HTTP/1.1" 200 OK
+✅ Results found: 1 crashpads
+INFO:     127.0.0.1:63020 - "GET /api/crashpads/search?city=MUMBAI&state=MAHARASHTRA&guests=1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63020 - "OPTIONS /api/homes/undefined HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63018 - "OPTIONS /api/reviews/undefined HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63022 - "OPTIONS /api/homes/undefined HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63024 - "OPTIONS /api/reviews/undefined HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63020 - "GET /api/homes/undefined HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:63018 - "GET /api/reviews/undefined HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:63020 - "GET /api/homes/undefined HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:63018 - "GET /api/reviews/undefined HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:63018 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63018 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63039 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63039 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+🔍 Search homes: city=MUMBAI, state=MAHARASHTRA, location=None, guests=1, price=0.0-10000.0
+🔍 Search crashpads: city=MUMBAI, state=MAHARASHTRA, guests=1
+📋 MongoDB filter: {'status': 'approved', 'is_active': True, 'location.city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'location.state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+📋 MongoDB filter: {'price_per_night': {'$gte': 0.0, '$lte': 10000.0}, 'status': 'approved', 'is_active': True, 'city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+✅ Results found: 1 crashpads
+INFO:     127.0.0.1:63040 - "GET /api/crashpads/search?city=MUMBAI&state=MAHARASHTRA&guests=1 HTTP/1.1" 200 OK
+✅ Results found: 0 homes
+INFO:     127.0.0.1:63039 - "GET /api/homes/?minPrice=0&maxPrice=10000&sort=newest&guests=1&city=MUMBAI&state=MAHARASHTRA HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63052 - "OPTIONS /api/homes/?minPrice=0&maxPrice=10000&propertyType=Villa&sort=newest&guests=1&city=MUMBAI&state=MAHARASHTRA HTTP/1.1" 200 OK
+🔍 Search crashpads: city=MUMBAI, state=MAHARASHTRA, guests=1
+📋 MongoDB filter: {'status': 'approved', 'is_active': True, 'location.city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'location.state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+🔍 Search homes: city=MUMBAI, state=MAHARASHTRA, location=None, guests=1, price=0.0-10000.0
+📋 MongoDB filter: {'price_per_night': {'$gte': 0.0, '$lte': 10000.0}, 'status': 'approved', 'is_active': True, 'city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}, 'property_type': {'$in': ['Villa']}}
+✅ Results found: 1 crashpads
+INFO:     127.0.0.1:63054 - "GET /api/crashpads/search?city=MUMBAI&state=MAHARASHTRA&guests=1 HTTP/1.1" 200 OK
+✅ Results found: 0 homes
+INFO:     127.0.0.1:63052 - "GET /api/homes/?minPrice=0&maxPrice=10000&propertyType=Villa&sort=newest&guests=1&city=MUMBAI&state=MAHARASHTRA HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63052 - "OPTIONS /api/homes/?minPrice=0&maxPrice=10000&propertyType=Villa,Crashpad&sort=newest&guests=1&city=MUMBAI&state=MAHARASHTRA HTTP/1.1" 200 OK
+🔍 Search crashpads: city=MUMBAI, state=MAHARASHTRA, guests=1
+📋 MongoDB filter: {'status': 'approved', 'is_active': True, 'location.city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'location.state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+🔍 Search homes: city=MUMBAI, state=MAHARASHTRA, location=None, guests=1, price=0.0-10000.0
+📋 MongoDB filter: {'price_per_night': {'$gte': 0.0, '$lte': 10000.0}, 'status': 'approved', 'is_active': True, 'city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}, 'property_type': {'$in': ['Villa', 'Crashpad']}}
+✅ Results found: 1 crashpads
+INFO:     127.0.0.1:63054 - "GET /api/crashpads/search?city=MUMBAI&state=MAHARASHTRA&guests=1 HTTP/1.1" 200 OK
+✅ Results found: 0 homes
+INFO:     127.0.0.1:63056 - "GET /api/homes/?minPrice=0&maxPrice=10000&propertyType=Villa,Crashpad&sort=newest&guests=1&city=MUMBAI&state=MAHARASHTRA HTTP/1.1" 200 OK
+🔍 Search homes: city=MUMBAI, state=MAHARASHTRA, location=None, guests=1, price=0.0-10000.0
+🔍 Search crashpads: city=MUMBAI, state=MAHARASHTRA, guests=1
+📋 MongoDB filter: {'status': 'approved', 'is_active': True, 'location.city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'location.state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+📋 MongoDB filter: {'price_per_night': {'$gte': 0.0, '$lte': 10000.0}, 'status': 'approved', 'is_active': True, 'city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}, 'property_type': {'$in': ['Villa']}}
+✅ Results found: 1 crashpads
+INFO:     127.0.0.1:63054 - "GET /api/crashpads/search?city=MUMBAI&state=MAHARASHTRA&guests=1 HTTP/1.1" 200 OK
+✅ Results found: 0 homes
+INFO:     127.0.0.1:63056 - "GET /api/homes/?minPrice=0&maxPrice=10000&propertyType=Villa&sort=newest&guests=1&city=MUMBAI&state=MAHARASHTRA HTTP/1.1" 200 OK
+🔍 Search homes: city=MUMBAI, state=MAHARASHTRA, location=None, guests=1, price=0.0-10000.0
+🔍 Search crashpads: city=MUMBAI, state=MAHARASHTRA, guests=1
+📋 MongoDB filter: {'status': 'approved', 'is_active': True, 'location.city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'location.state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+📋 MongoDB filter: {'price_per_night': {'$gte': 0.0, '$lte': 10000.0}, 'status': 'approved', 'is_active': True, 'city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+✅ Results found: 1 crashpads
+INFO:     127.0.0.1:63054 - "GET /api/crashpads/search?city=MUMBAI&state=MAHARASHTRA&guests=1 HTTP/1.1" 200 OK
+✅ Results found: 0 homes
+INFO:     127.0.0.1:63056 - "GET /api/homes/?minPrice=0&maxPrice=10000&sort=newest&guests=1&city=MUMBAI&state=MAHARASHTRA HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63085 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63085 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63085 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63085 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63085 - "GET /api/host/dashboard/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63096 - "OPTIONS /api/crashpads/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63097 - "OPTIONS /api/crashpads/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63097 - "GET /api/crashpads/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63097 - "GET /api/crashpads/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63099 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63099 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63099 - "GET /api/host/dashboard/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63207 - "OPTIONS /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63209 - "OPTIONS /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63207 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63209 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63211 - "OPTIONS /api/host/dashboard/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63211 - "GET /api/host/dashboard/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63211 - "OPTIONS /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63238 - "OPTIONS /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63238 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63238 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63305 - "OPTIONS /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63305 - "PATCH /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63305 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63305 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63305 - "GET /api/host/dashboard/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63307 - "OPTIONS /api/host/bookings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63307 - "GET /api/host/bookings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63320 - "GET /api/host/dashboard/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63323 - "GET /api/host/bookings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63331 - "OPTIONS /api/messages/conversations/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63332 - "OPTIONS /api/messages/conversations/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Found 0 messages between conversations and 69ae75a5ce25025820062bd4
+INFO:     127.0.0.1:63332 - "GET /api/messages/conversations/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Found 0 messages between conversations and 69ae75a5ce25025820062bd4
+INFO:     127.0.0.1:63332 - "GET /api/messages/conversations/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63332 - "OPTIONS /api/host/earnings?period=month HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63332 - "GET /api/host/earnings?period=month HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63335 - "OPTIONS /api/host/reviews HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63335 - "GET /api/host/reviews HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63335 - "OPTIONS /api/host/notifications HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63335 - "GET /api/host/notifications HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63335 - "GET /api/host/bookings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63416 - "GET /api/host/bookings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63418 - "OPTIONS /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63418 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63449 - "GET /api/host/bookings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63420 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63506 - "GET /api/host/bookings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63508 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63547 - "GET /api/host/bookings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63549 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63578 - "GET /api/host/bookings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63580 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63601 - "OPTIONS /api/host/dashboard/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63601 - "GET /api/host/dashboard/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63601 - "OPTIONS /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63603 - "OPTIONS /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63601 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63603 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63603 - "OPTIONS /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63601 - "OPTIONS /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63605 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63605 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63605 - "OPTIONS /api/host/earnings?period=month HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63601 - "GET /api/host/earnings?period=month HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63621 - "OPTIONS /api/host/reviews HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63621 - "GET /api/host/reviews HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63621 - "GET /api/host/reviews HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63635 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63623 - "OPTIONS /api/messages/conversations/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63637 - "OPTIONS /api/messages/conversations/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Found 0 messages between conversations and 69ae75a5ce25025820062bd4
+INFO:     127.0.0.1:63623 - "GET /api/messages/conversations/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Found 0 messages between conversations and 69ae75a5ce25025820062bd4
+INFO:     127.0.0.1:63623 - "GET /api/messages/conversations/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63623 - "OPTIONS /api/host/bookings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63637 - "GET /api/host/bookings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63637 - "GET /api/host/dashboard/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63637 - "GET /api/host/bookings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63723 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63725 - "OPTIONS /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63725 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63739 - "OPTIONS /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63740 - "OPTIONS /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63739 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63740 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63740 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63740 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63945 - "OPTIONS /api/host/bookings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63945 - "GET /api/host/bookings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63945 - "OPTIONS /api/host/dashboard/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63945 - "GET /api/host/dashboard/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63945 - "GET /api/host/bookings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63947 - "GET /api/host/overview HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'app/api/routes/host.py'. Reloading...
 INFO:     Shutting down
 INFO:     Waiting for application shutdown.
 INFO:     Application shutdown complete.
-INFO:     Finished server process [4527]
-INFO:     Started server process [4539]
+INFO:     Finished server process [5453]
+INFO:     Started server process [5976]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
-WARNING:  StatReload detected changes in 'app/api/routes/auth.py'. Reloading...
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [4539]
-INFO:     Started server process [4547]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-/Users/tushaarrohatgi/Developer/BNB NEW/TRAVELBNB BACKEND/venv/lib/python3.13/site-packages/jwt/api_jwt.py:147: InsecureKeyLengthWarning: The HMAC key is 17 bytes long, which is below the minimum recommended length of 32 bytes for SHA256. See RFC 7518 Section 3.2.
-  return self._jws.encode(
-DEBUG: Registering user: test3@example.com
-DEBUG: Hashing password
-DEBUG: Inserting user into DB
-DEBUG: User inserted
-DEBUG: Generating verification token
-DEBUG: Sending verification email
-Resend Error: You can only send testing emails to your own email address (hitushaar@gmail.com). To send emails to other recipients, please verify a domain at resend.com/domains, and change the `from` address to an email using this domain.
-DEBUG: Email task finished
-INFO:     127.0.0.1:52690 - "POST /auth/register HTTP/1.1" 200 OK
-WARNING:  StatReload detected changes in 'app/api/routes/auth.py'. Reloading...
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [4547]
-INFO:     Started server process [4581]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-WARNING:  StatReload detected changes in 'app/api/routes/auth.py'. Reloading...
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.
-INFO:     Finished server process [4581]
-INFO:     Started server process [4589]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-INFO:     127.0.0.1:53530 - "POST /auth/register HTTP/1.1" 400 Bad Request
-INFO:     127.0.0.1:53664 - "POST /auth/register HTTP/1.1" 400 Bad Request
-INFO:     127.0.0.1:53738 - "OPTIONS /otp/login-otp HTTP/1.1" 200 OK
-
-==================================================
-🔑 LOGIN OTP for +918888888888: 730623
-==================================================
-
-INFO:     127.0.0.1:53738 - "POST /otp/login-otp HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53739 - "OPTIONS /otp/verify-otp HTTP/1.1" 200 OK
-INFO:     127.0.0.1:53739 - "POST /otp/verify-otp HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:53739 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:53739 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
-✅ Successfully fetched 1 homes
-INFO:     127.0.0.1:53739 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
-🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
-✅ Successfully fetched 1 homes
-INFO:     127.0.0.1:53826 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
-🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
-✅ Successfully fetched 1 homes
-INFO:     127.0.0.1:53908 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54169 - "OPTIONS /otp/login-otp HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54169 - "POST /otp/login-otp HTTP/1.1" 404 Not Found
-
-==================================================
-🔑 LOGIN OTP for +918888888888: 759739
-==================================================
-
-INFO:     127.0.0.1:54170 - "POST /otp/login-otp HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54173 - "OPTIONS /otp/verify-otp HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54173 - "POST /otp/verify-otp HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54173 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54173 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
-✅ Successfully fetched 1 homes
-INFO:     127.0.0.1:54173 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54174 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54174 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54175 - "GET /api/trips/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54175 - "GET /api/trips/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54175 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54175 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
-✅ Successfully fetched 1 homes
-INFO:     127.0.0.1:54175 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54177 - "OPTIONS /bookings/user/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54178 - "OPTIONS /bookings/user/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54175 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54178 - "GET /bookings/user/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54175 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54178 - "GET /bookings/user/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54178 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54178 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
-✅ Successfully fetched 1 homes
-INFO:     127.0.0.1:54178 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54236 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54235 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54235 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54236 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54235 - "GET /crashpads/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54236 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54235 - "GET /crashpads/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54236 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54236 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54236 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54237 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54237 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
-✅ Successfully fetched 1 homes
-INFO:     127.0.0.1:54237 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54629 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54629 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
-✅ Successfully fetched 1 homes
-INFO:     127.0.0.1:54629 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54634 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54634 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54634 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54634 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54636 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
-✅ Successfully fetched 1 homes
-INFO:     127.0.0.1:54636 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
-🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=price_asc
-✅ Successfully fetched 1 homes
-INFO:     127.0.0.1:54735 - "GET /homes/?minPrice=0&maxPrice=10000&sort=price_asc HTTP/1.1" 200 OK
-🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
-✅ Successfully fetched 1 homes
-INFO:     127.0.0.1:54735 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54737 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54735 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54737 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:54735 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54741 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:54741 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
-✅ Successfully fetched 1 homes
-INFO:     127.0.0.1:54741 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55002 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55002 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
-✅ Successfully fetched 1 homes
-INFO:     127.0.0.1:55002 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55032 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
-✅ Successfully fetched 1 homes
-INFO:     127.0.0.1:55032 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55105 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55105 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
-✅ Successfully fetched 1 homes
-INFO:     127.0.0.1:55105 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55110 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55110 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55110 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55110 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
-✅ Successfully fetched 1 homes
-INFO:     127.0.0.1:55110 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55110 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55111 - "GET /crashpads/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55110 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55111 - "GET /crashpads/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55110 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55111 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55110 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55111 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55111 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55111 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
-✅ Successfully fetched 1 homes
-INFO:     127.0.0.1:55111 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
-🔍 Fetching homes: 4400.0-10000.0, type=None, amenities=None, sort=newest
-✅ Successfully fetched 0 homes
-INFO:     127.0.0.1:55112 - "GET /homes/?minPrice=4400&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
-🔍 Fetching homes: 8600.0-10000.0, type=None, amenities=None, sort=newest
-✅ Successfully fetched 0 homes
-INFO:     127.0.0.1:55112 - "GET /homes/?minPrice=8600&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
-🔍 Fetching homes: 0.0-10000.0, type=None, amenities=None, sort=newest
-✅ Successfully fetched 1 homes
-INFO:     127.0.0.1:55112 - "GET /homes/?minPrice=0&maxPrice=10000&sort=newest HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55181 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55276 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55276 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55276 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55276 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55362 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55362 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55362 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55362 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55362 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55362 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55376 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55376 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55389 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55389 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55389 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55389 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55389 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55389 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55389 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55435 - "OPTIONS /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User updated: kartik sharma
-INFO:     127.0.0.1:55435 - "PUT /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55435 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55435 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55436 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55436 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55436 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55436 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User updated: kartik sharma
-INFO:     127.0.0.1:55436 - "PUT /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User updated: kartik sharma
-INFO:     127.0.0.1:55437 - "PUT /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55437 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55437 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55438 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55438 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55438 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55438 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User updated: kartik sharma
-INFO:     127.0.0.1:55439 - "PUT /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55439 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55439 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55444 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55444 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55444 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55445 - "GET /crashpads/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55445 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55444 - "GET /crashpads/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55444 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55445 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55445 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55444 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55444 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55444 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55450 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55451 - "GET /crashpads/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55450 - "GET /crashpads/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55451 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55453 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55452 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55453 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55452 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55452 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55452 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55456 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55457 - "GET /api/messages/conversations/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55457 - "GET /api/messages/conversations/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55456 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55457 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55456 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55457 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55456 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55456 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55456 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55456 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55456 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55458 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55458 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55481 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55481 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55575 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55575 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55575 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55575 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55590 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55590 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55591 - "GET /crashpads/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55591 - "GET /crashpads/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55591 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55590 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55590 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55591 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55590 - "GET /crashpads/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55591 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55591 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55590 - "GET /crashpads/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55590 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55591 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55590 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55591 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55591 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55590 - "GET /crashpads/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55591 - "GET /crashpads/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55590 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55591 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55590 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55590 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55591 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55598 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55598 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55602 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55603 - "GET /api/trips/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55602 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55603 - "GET /api/trips/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55606 - "OPTIONS /bookings/user/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55607 - "OPTIONS /bookings/user/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55605 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55606 - "GET /bookings/user/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55605 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55606 - "GET /bookings/user/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55608 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55609 - "GET /api/trips/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55609 - "GET /api/trips/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55608 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55617 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55617 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55617 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55617 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55618 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55618 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55639 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55639 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55639 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55640 - "GET /crashpads/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55639 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55640 - "GET /crashpads/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55640 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55639 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55640 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55639 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55639 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55639 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55681 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55681 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55698 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55698 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55698 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55698 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55776 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55776 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55776 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55776 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55786 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55786 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55907 - "GET /api/trips/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55907 - "GET /api/trips/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55911 - "OPTIONS /bookings/user/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55912 - "OPTIONS /bookings/user/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55910 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55911 - "GET /bookings/user/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55910 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55911 - "GET /bookings/user/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "GET /crashpads/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55926 - "GET /crashpads/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55974 - "GET /crashpads/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55973 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55973 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55974 - "GET /crashpads/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55997 - "GET /crashpads/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55996 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:55997 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:55996 - "GET /crashpads/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:56183 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56182 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56183 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:56182 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:56193 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:56193 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:56219 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56297 - "GET /crashpads/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56297 - "GET /crashpads/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56303 - "GET /crashpads/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56303 - "GET /crashpads/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56316 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56316 - "GET /travel-buddies/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64013 - "GET /api/host/bookings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64013 - "OPTIONS /api/host/calendar/block HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64013 - "POST /api/host/calendar/block HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64013 - "DELETE /api/host/calendar/block HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64016 - "GET /api/host/dashboard/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64029 - "OPTIONS /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64030 - "OPTIONS /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64029 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64029 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64032 - "OPTIONS /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64042 - "OPTIONS /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64032 - "OPTIONS /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64046 - "OPTIONS /api/crashpads/locations HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:64047 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:64047 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:64047 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64052 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:64047 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64052 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64059 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64059 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64158 - "GET /api/host/dashboard/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64160 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64194 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64194 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64194 - "OPTIONS /api/host/dashboard/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64194 - "GET /api/host/dashboard/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64194 - "OPTIONS /api/messages/conversations/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64197 - "OPTIONS /api/messages/conversations/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Found 0 messages between conversations and 69ae75a5ce25025820062bd4
+INFO:     127.0.0.1:64194 - "GET /api/messages/conversations/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Found 0 messages between conversations and 69ae75a5ce25025820062bd4
+INFO:     127.0.0.1:64194 - "GET /api/messages/conversations/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64194 - "OPTIONS /api/host/bookings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64197 - "GET /api/host/bookings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64197 - "OPTIONS /api/host/earnings?period=month HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64194 - "GET /api/host/earnings?period=month HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64194 - "OPTIONS /api/host/reviews HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64197 - "GET /api/host/reviews HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64197 - "OPTIONS /api/host/notifications HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64194 - "GET /api/host/notifications HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64194 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64197 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64299 - "OPTIONS /api/auth/user/69bef69b26a0c35604d5d5ef HTTP/1.1" 200 OK
+Fetching user: 69bef69b26a0c35604d5d5ef
+User found: naman jha, is_host: True
+INFO:     127.0.0.1:64299 - "GET /api/auth/user/69bef69b26a0c35604d5d5ef HTTP/1.1" 200 OK
+Fetching user: 69bef69b26a0c35604d5d5ef
+User found: naman jha, is_host: True
+INFO:     127.0.0.1:64299 - "GET /api/auth/user/69bef69b26a0c35604d5d5ef HTTP/1.1" 200 OK
+Fetching user: 69bef69b26a0c35604d5d5ef
+User found: naman jha, is_host: True
+INFO:     127.0.0.1:64299 - "GET /api/auth/user/69bef69b26a0c35604d5d5ef HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64299 - "OPTIONS /api/admin/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64301 - "OPTIONS /api/admin/stats HTTP/1.1" 200 OK
+Fetching user: 69bef69b26a0c35604d5d5ef
+User found: naman jha, is_host: True
+INFO:     127.0.0.1:64308 - "GET /api/auth/user/69bef69b26a0c35604d5d5ef HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64299 - "GET /api/admin/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64299 - "GET /api/admin/stats HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64299 - "OPTIONS /api/admin/listings?page=1&limit=10&search=&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64308 - "OPTIONS /api/admin/listings?page=1&limit=10&search=&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64301 - "GET /api/admin/listings?page=1&limit=10&search=&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64308 - "GET /api/admin/listings?page=1&limit=10&search=&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64308 - "OPTIONS /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64301 - "OPTIONS /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64299 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64299 - "OPTIONS /api/reviews/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64308 - "GET /api/reviews/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64301 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64301 - "GET /api/reviews/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64310 - "OPTIONS /api/admin/listings/69d3623f0802adb547114933/approve HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64310 - "POST /api/admin/listings/69d3623f0802adb547114933/approve HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64320 - "GET /api/admin/listings?page=1&limit=10&search=&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64310 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64310 - "GET /api/reviews/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64325 - "OPTIONS /api/admin/crashpads?page=1&limit=10&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64327 - "OPTIONS /api/admin/crashpads?page=1&limit=10&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64325 - "GET /api/admin/crashpads?page=1&limit=10&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64325 - "GET /api/admin/crashpads?page=1&limit=10&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64325 - "GET /api/admin/listings?page=1&limit=10&search=&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64327 - "GET /api/admin/listings?page=1&limit=10&search=&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64327 - "OPTIONS /api/admin/travel-buddies?page=1&limit=10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64325 - "OPTIONS /api/admin/travel-buddies?page=1&limit=10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64329 - "GET /api/admin/travel-buddies?page=1&limit=10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64329 - "GET /api/admin/travel-buddies?page=1&limit=10 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64329 - "GET /api/admin/crashpads?page=1&limit=10&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64329 - "GET /api/admin/crashpads?page=1&limit=10&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64329 - "GET /api/admin/listings?page=1&limit=10&search=&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64325 - "GET /api/admin/listings?page=1&limit=10&search=&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64325 - "GET /api/admin/crashpads?page=1&limit=10&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64325 - "GET /api/admin/crashpads?page=1&limit=10&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64334 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64334 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64334 - "OPTIONS /api/homes/?minPrice=0&maxPrice=10000&sort=newest&guests=1&city=MUMBAI&state=MAHARASHTRA HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64336 - "OPTIONS /api/crashpads/search?city=MUMBAI&state=MAHARASHTRA&guests=1 HTTP/1.1" 200 OK
+🔍 Search homes: city=MUMBAI, state=MAHARASHTRA, location=None, guests=1, price=0.0-10000.0
+🔍 Search crashpads: city=MUMBAI, state=MAHARASHTRA, guests=1
+📋 MongoDB filter: {'status': 'approved', 'is_active': True, 'location.city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'location.state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+📋 MongoDB filter: {'price_per_night': {'$gte': 0.0, '$lte': 10000.0}, 'status': 'approved', 'is_active': True, 'city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+✅ Results found: 1 crashpads
+INFO:     127.0.0.1:64336 - "GET /api/crashpads/search?city=MUMBAI&state=MAHARASHTRA&guests=1 HTTP/1.1" 200 OK
+✅ Results found: 1 homes
+INFO:     127.0.0.1:64334 - "GET /api/homes/?minPrice=0&maxPrice=10000&sort=newest&guests=1&city=MUMBAI&state=MAHARASHTRA HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:64338 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:64338 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:64338 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64340 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:64338 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:64338 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64340 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+🔍 Search homes: city=MUMBAI, state=MAHARASHTRA, location=None, guests=1, price=0.0-10000.0
+🔍 Search crashpads: city=MUMBAI, state=MAHARASHTRA, guests=1
+📋 MongoDB filter: {'status': 'approved', 'is_active': True, 'location.city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'location.state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+📋 MongoDB filter: {'price_per_night': {'$gte': 0.0, '$lte': 10000.0}, 'status': 'approved', 'is_active': True, 'city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+✅ Results found: 1 crashpads
+INFO:     127.0.0.1:64338 - "GET /api/crashpads/search?city=MUMBAI&state=MAHARASHTRA&guests=1 HTTP/1.1" 200 OK
+✅ Results found: 1 homes
+INFO:     127.0.0.1:64340 - "GET /api/homes/?minPrice=0&maxPrice=10000&sort=newest&guests=1&city=MUMBAI&state=MAHARASHTRA HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64340 - "OPTIONS /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64338 - "OPTIONS /api/reviews/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64366 - "OPTIONS /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64367 - "OPTIONS /api/reviews/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64338 - "GET /api/reviews/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64338 - "GET /api/reviews/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64340 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:64340 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64338 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64369 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64369 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+🔍 Search homes: city=MUMBAI, state=MAHARASHTRA, location=None, guests=1, price=0.0-10000.0
+🔍 Search crashpads: city=MUMBAI, state=MAHARASHTRA, guests=1
+📋 MongoDB filter: {'status': 'approved', 'is_active': True, 'location.city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'location.state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+📋 MongoDB filter: {'price_per_night': {'$gte': 0.0, '$lte': 10000.0}, 'status': 'approved', 'is_active': True, 'city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+✅ Results found: 1 crashpads
+INFO:     127.0.0.1:64381 - "GET /api/crashpads/search?city=MUMBAI&state=MAHARASHTRA&guests=1 HTTP/1.1" 200 OK
+✅ Results found: 1 homes
+INFO:     127.0.0.1:64369 - "GET /api/homes/?minPrice=0&maxPrice=10000&sort=newest&guests=1&city=MUMBAI&state=MAHARASHTRA HTTP/1.1" 200 OK
+🔍 Search homes: city=MUMBAI, state=MAHARASHTRA, location=None, guests=1, price=0.0-10000.0
+🔍 Search crashpads: city=MUMBAI, state=MAHARASHTRA, guests=1
+📋 MongoDB filter: {'status': 'approved', 'is_active': True, 'location.city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'location.state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+📋 MongoDB filter: {'price_per_night': {'$gte': 0.0, '$lte': 10000.0}, 'status': 'approved', 'is_active': True, 'city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+✅ Results found: 1 crashpads
+INFO:     127.0.0.1:64516 - "GET /api/crashpads/search?city=MUMBAI&state=MAHARASHTRA&guests=1 HTTP/1.1" 200 OK
+✅ Results found: 1 homes
+INFO:     127.0.0.1:64515 - "GET /api/homes/?minPrice=0&maxPrice=10000&sort=newest&guests=1&city=MUMBAI&state=MAHARASHTRA HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64558 - "GET /api/reviews/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64558 - "GET /api/reviews/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64557 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64557 - "OPTIONS /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:64557 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64558 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64558 - "OPTIONS /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64557 - "OPTIONS /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64560 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64560 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+🔍 Search homes: city=MUMBAI, state=MAHARASHTRA, location=None, guests=1, price=0.0-10000.0
+🔍 Search crashpads: city=MUMBAI, state=MAHARASHTRA, guests=1
+📋 MongoDB filter: {'status': 'approved', 'is_active': True, 'location.city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'location.state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+📋 MongoDB filter: {'price_per_night': {'$gte': 0.0, '$lte': 10000.0}, 'status': 'approved', 'is_active': True, 'city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+✅ Results found: 1 crashpads
+INFO:     127.0.0.1:64557 - "GET /api/crashpads/search?city=MUMBAI&state=MAHARASHTRA&guests=1 HTTP/1.1" 200 OK
+✅ Results found: 1 homes
+INFO:     127.0.0.1:64560 - "GET /api/homes/?minPrice=0&maxPrice=10000&sort=newest&guests=1&city=MUMBAI&state=MAHARASHTRA HTTP/1.1" 200 OK
 WARNING:  StatReload detected changes in 'app/api/routes/homes.py'. Reloading...
 INFO:     Shutting down
 INFO:     Waiting for application shutdown.
 INFO:     Application shutdown complete.
-INFO:     Finished server process [4589]
-INFO:     Started server process [6030]
+INFO:     Finished server process [5976]
+INFO:     Started server process [6152]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
-INFO:     127.0.0.1:56381 - "GET /crashpads/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56381 - "GET /crashpads/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56435 - "GET /crashpads/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56435 - "GET /crashpads/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56442 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56442 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56549 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56549 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56549 - "GET /crashpads/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56549 - "GET /crashpads/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56551 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56551 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56628 - "GET /travel-buddies/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56663 - "GET /crashpads/ HTTP/1.1" 200 OK
-INFO:     127.0.0.1:56663 - "GET /crashpads/ HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:57116 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:57116 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:57206 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:57206 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57392 - "OPTIONS /upload/property HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57393 - "OPTIONS /upload/property HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57394 - "OPTIONS /upload/property HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57395 - "OPTIONS /upload/property HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57393 - "POST /upload/property HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57394 - "POST /upload/property HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57392 - "POST /upload/property HTTP/1.1" 200 OK
-INFO:     127.0.0.1:57395 - "POST /upload/property HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:57402 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:57425 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:57425 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:57665 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:57665 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:61960 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:61960 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:63022 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:63022 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:63499 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:63499 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:63979 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:63979 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:64059 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:64059 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:64960 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:64960 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:49321 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:49321 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:50549 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:50549 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
-❌ Backend error fetching user: ac-tg4u8fi-shard-00-01.pgc8x5d.mongodb.net:27017: [Errno 8] nodename nor servname provided, or not known (configured timeouts: connectTimeoutMS: 20000.0ms)
-INFO:     127.0.0.1:51460 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 404 Not Found
-✅ User fetched for navbar: kartik sharma
-INFO:     127.0.0.1:51442 - "GET /auth/user/69ba532c334010c2a7030fd0 HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'app/api/routes/crashpads.py'. Reloading...
 INFO:     Shutting down
 INFO:     Waiting for application shutdown.
 INFO:     Application shutdown complete.
-INFO:     Finished server process [6030]
-INFO:     Stopping reloader process [4525]
+INFO:     Finished server process [6152]
+INFO:     Started server process [6160]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:64673 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64673 - "OPTIONS /api/homes/?minPrice=0&maxPrice=10000&sort=newest&guests=1&city=MUMBAI&state=MAHARASHTRA HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64676 - "OPTIONS /api/crashpads/search?city=MUMBAI&state=MAHARASHTRA&guests=1 HTTP/1.1" 200 OK
+🔍 Search homes: city=MUMBAI, state=MAHARASHTRA, location=None, guests=1, price=0.0-10000.0
+🔍 Search crashpads: city=MUMBAI, state=MAHARASHTRA, guests=1
+📋 MongoDB filter: {'status': 'approved', 'is_active': True, 'location.city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'location.state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+📋 MongoDB filter: {'price_per_night': {'$gte': 0.0, '$lte': 10000.0}, 'status': 'approved', 'is_active': True, 'city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+✅ Results found: 1 crashpads
+INFO:     127.0.0.1:64678 - "GET /api/crashpads/search?city=MUMBAI&state=MAHARASHTRA&guests=1 HTTP/1.1" 200 OK
+✅ Results found: 1 homes
+INFO:     127.0.0.1:64673 - "GET /api/homes/?minPrice=0&maxPrice=10000&sort=newest&guests=1&city=MUMBAI&state=MAHARASHTRA HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:64743 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:64743 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:64743 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64745 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:64743 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:64743 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64745 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+🔍 Search homes: city=MUMBAI, state=MAHARASHTRA, location=None, guests=1, price=0.0-10000.0
+🔍 Search crashpads: city=MUMBAI, state=MAHARASHTRA, guests=1
+📋 MongoDB filter: {'status': 'approved', 'is_active': True, 'location.city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'location.state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+📋 MongoDB filter: {'price_per_night': {'$gte': 0.0, '$lte': 10000.0}, 'status': 'approved', 'is_active': True, 'city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+✅ Results found: 1 crashpads
+INFO:     127.0.0.1:64743 - "GET /api/crashpads/search?city=MUMBAI&state=MAHARASHTRA&guests=1 HTTP/1.1" 200 OK
+✅ Results found: 1 homes
+INFO:     127.0.0.1:64745 - "GET /api/homes/?minPrice=0&maxPrice=10000&sort=newest&guests=1&city=MUMBAI&state=MAHARASHTRA HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64761 - "OPTIONS /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64763 - "OPTIONS /api/reviews/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64764 - "OPTIONS /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64765 - "OPTIONS /api/reviews/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64767 - "GET /api/reviews/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64767 - "GET /api/reviews/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64761 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:64761 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+WARNING:  Invalid HTTP request received.
+INFO:     127.0.0.1:64767 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51523 - "OPTIONS /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51525 - "OPTIONS /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51523 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51523 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51570 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51570 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51570 - "OPTIONS /api/homes/?minPrice=0&maxPrice=10000&sort=newest&guests=1&city=MUMBAI&state=MAHARASHTRA HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51576 - "OPTIONS /api/crashpads/search?city=MUMBAI&state=MAHARASHTRA&guests=1 HTTP/1.1" 200 OK
+🔍 Search homes: city=MUMBAI, state=MAHARASHTRA, location=None, guests=1, price=0.0-10000.0
+🔍 Search crashpads: city=MUMBAI, state=MAHARASHTRA, guests=1
+📋 MongoDB filter: {'status': 'approved', 'is_active': True, 'location.city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'location.state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+📋 MongoDB filter: {'price_per_night': {'$gte': 0.0, '$lte': 10000.0}, 'status': 'approved', 'is_active': True, 'city': {'$regex': '^MUMBAI$', '$options': 'i'}, 'state': {'$regex': '^MAHARASHTRA$', '$options': 'i'}, 'max_guests': {'$gte': 1}}
+✅ Results found: 1 crashpads
+INFO:     127.0.0.1:51570 - "GET /api/crashpads/search?city=MUMBAI&state=MAHARASHTRA&guests=1 HTTP/1.1" 200 OK
+✅ Results found: 1 homes
+INFO:     127.0.0.1:51576 - "GET /api/homes/?minPrice=0&maxPrice=10000&sort=newest&guests=1&city=MUMBAI&state=MAHARASHTRA HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58716 - "OPTIONS /api/admin/listings?page=1&limit=10&search=&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58717 - "OPTIONS /api/admin/listings?page=1&limit=10&search=&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58716 - "GET /api/admin/listings?page=1&limit=10&search=&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58717 - "GET /api/admin/listings?page=1&limit=10&search=&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58719 - "OPTIONS /api/admin/crashpads?page=1&limit=10&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58802 - "OPTIONS /api/admin/crashpads?page=1&limit=10&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58719 - "GET /api/admin/crashpads?page=1&limit=10&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58719 - "GET /api/admin/crashpads?page=1&limit=10&status= HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'app/api/routes/admin.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [6160]
+INFO:     Started server process [6671]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:59741 - "GET /api/admin/listings?page=1&limit=10&search=&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59748 - "GET /api/admin/listings?page=1&limit=10&search=&status= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59827 - "OPTIONS /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59828 - "OPTIONS /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59827 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59827 - "GET /api/crashpads/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59827 - "OPTIONS /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59828 - "OPTIONS /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59830 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59830 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59830 - "OPTIONS /api/host/dashboard/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59828 - "GET /api/host/dashboard/me HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/fastapi/encoders.py", line 230, in jsonable_encoder
+    data = dict(obj)
+TypeError: 'ObjectId' object is not iterable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/fastapi/encoders.py", line 235, in jsonable_encoder
+    data = vars(obj)
+TypeError: vars() argument must have __dict__ attribute
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/uvicorn/protocols/http/h11_impl.py", line 410, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/fastapi/applications.py", line 289, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/starlette/applications.py", line 122, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/starlette/middleware/errors.py", line 184, in __call__
+    raise exc
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/starlette/middleware/errors.py", line 162, in __call__
+    await self.app(scope, receive, _send)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/starlette/middleware/cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/starlette/middleware/cors.py", line 146, in simple_response
+    await self.app(scope, receive, send)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 79, in __call__
+    raise exc
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/fastapi/middleware/asyncexitstack.py", line 20, in __call__
+    raise e
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/fastapi/middleware/asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/starlette/routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/starlette/routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/starlette/routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/fastapi/routing.py", line 291, in app
+    content = await serialize_response(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/fastapi/routing.py", line 179, in serialize_response
+    return jsonable_encoder(response_content)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/fastapi/encoders.py", line 195, in jsonable_encoder
+    encoded_value = jsonable_encoder(
+        value,
+    ...<4 lines>...
+        sqlalchemy_safe=sqlalchemy_safe,
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/fastapi/encoders.py", line 209, in jsonable_encoder
+    jsonable_encoder(
+    ~~~~~~~~~~~~~~~~^
+        item,
+        ^^^^^
+    ...<7 lines>...
+        sqlalchemy_safe=sqlalchemy_safe,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/fastapi/encoders.py", line 195, in jsonable_encoder
+    encoded_value = jsonable_encoder(
+        value,
+    ...<4 lines>...
+        sqlalchemy_safe=sqlalchemy_safe,
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/fastapi/encoders.py", line 209, in jsonable_encoder
+    jsonable_encoder(
+    ~~~~~~~~~~~~~~~~^
+        item,
+        ^^^^^
+    ...<7 lines>...
+        sqlalchemy_safe=sqlalchemy_safe,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/fastapi/encoders.py", line 238, in jsonable_encoder
+    raise ValueError(errors) from e
+ValueError: [TypeError("'ObjectId' object is not iterable"), TypeError('vars() argument must have __dict__ attribute')]
+WARNING:  StatReload detected changes in 'app/api/routes/host.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [6671]
+INFO:     Started server process [6688]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:60790 - "OPTIONS /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:60790 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:60790 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:60790 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60792 - "GET /api/host/overview HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:60790 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:60790 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60792 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60792 - "GET /api/host/dashboard/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61038 - "OPTIONS /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61039 - "OPTIONS /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61038 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+WARNING:  Invalid HTTP request received.
+INFO:     127.0.0.1:61039 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  StatReload detected changes in 'app/api/routes/uploads.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [6688]
+Process SpawnProcess-7:
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/multiprocessing/process.py", line 313, in _bootstrap
+    self.run()
+    ~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+    ~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/uvicorn/server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/uvicorn/server.py", line 79, in serve
+    await self._serve(sockets)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/uvicorn/server.py", line 86, in _serve
+    config.load()
+    ~~~~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/uvicorn/config.py", line 441, in load
+    self.loaded_app = import_from_string(self.app)
+                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/importlib/__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 1026, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/tushaarrohatgi/Developer/BNB NEW/TRAVELBNB BACKEND/app/main.py", line 16, in <module>
+    from app.api.routes.uploads import router as upload_router
+  File "/Users/tushaarrohatgi/Developer/BNB NEW/TRAVELBNB BACKEND/app/api/routes/uploads.py", line 53, in <module>
+    async def upload_multiple_images(files: List[UploadFile] = File(...)):
+                                            ^^^^
+NameError: name 'List' is not defined. Did you mean: 'list'?
+WARNING:  StatReload detected changes in 'app/api/routes/uploads.py'. Reloading...
+INFO:     Started server process [6863]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:61361 - "OPTIONS /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61361 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+WARNING:  Invalid HTTP request received.
+WARNING:  StatReload detected changes in 'app/api/routes/homes.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [6863]
+INFO:     Started server process [6878]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'app/api/routes/crashpads.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [6878]
+INFO:     Started server process [6885]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     127.0.0.1:61467 - "OPTIONS /api/upload/images HTTP/1.1" 200 OK
+Multiple upload error: 
+INFO:     127.0.0.1:61467 - "POST /api/upload/images HTTP/1.1" 500 Internal Server Error
+WARNING:  StatReload detected changes in 'app/api/routes/uploads.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [6885]
+INFO:     Started server process [6936]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:62035 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+WARNING:  Invalid HTTP request received.
+INFO:     127.0.0.1:62194 - "OPTIONS /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:62194 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:62194 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:62194 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:62194 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:62194 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62196 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+WARNING:  Invalid HTTP request received.
+INFO:     127.0.0.1:62194 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+WARNING:  Invalid HTTP request received.
+INFO:     127.0.0.1:62256 - "OPTIONS /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62256 - "PATCH /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62256 - "OPTIONS /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62258 - "OPTIONS /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62256 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62256 - "GET /api/host/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62256 - "OPTIONS /api/host/dashboard/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62258 - "GET /api/host/dashboard/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62258 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62258 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+DEBUG: Starting multiple upload for 4 files
+DEBUG: Processing file img1.jpeg, type image/jpeg
+MULTIPLE UPLOAD ERROR: 
+Traceback (most recent call last):
+  File "/Users/tushaarrohatgi/Developer/BNB NEW/TRAVELBNB BACKEND/app/api/routes/uploads.py", line 60, in upload_multiple_images
+    contents = validate_image(file)
+  File "/Users/tushaarrohatgi/Developer/BNB NEW/TRAVELBNB BACKEND/app/api/routes/uploads.py", line 27, in validate_image
+    raise HTTPException(status_code=400, detail=f"Image size should not exceed {MAX_SIZE_MB}MB")
+fastapi.exceptions.HTTPException
+
+INFO:     127.0.0.1:62264 - "POST /api/upload/images HTTP/1.1" 500 Internal Server Error
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:62370 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:62370 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:62370 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62372 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:62370 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:62370 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62372 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+DEBUG: Starting multiple upload for 4 files
+DEBUG: Processing file img1.jpeg, type image/jpeg
+MULTIPLE UPLOAD ERROR: 
+Traceback (most recent call last):
+  File "/Users/tushaarrohatgi/Developer/BNB NEW/TRAVELBNB BACKEND/app/api/routes/uploads.py", line 60, in upload_multiple_images
+    contents = validate_image(file)
+  File "/Users/tushaarrohatgi/Developer/BNB NEW/TRAVELBNB BACKEND/app/api/routes/uploads.py", line 27, in validate_image
+    raise HTTPException(status_code=400, detail=f"Image size should not exceed {MAX_SIZE_MB}MB")
+fastapi.exceptions.HTTPException
+
+INFO:     127.0.0.1:62457 - "POST /api/upload/images HTTP/1.1" 500 Internal Server Error
+WARNING:  StatReload detected changes in 'app/api/routes/uploads.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [6936]
+INFO:     Started server process [6976]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+DEBUG: Starting multiple upload for 1 files
+DEBUG: Cloudinary config - cloud: dz379xmyz, key: 13567557
+DEBUG: Uploading file 1: dummy.png (image/png)
+DEBUG: File size: 6 bytes
+DEBUG: Upload success: https://res.cloudinary.com/dz379xmyz/raw/upload/v1775483591/travelbnb/listings/jmfnhyicsfqjhrsjrakt
+INFO:     127.0.0.1:62912 - "POST /api/upload/images HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:63068 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:63068 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:63068 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:63068 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+Fetching user: 69ae75a5ce25025820062bd4
+User found: Shlok Sukhija, is_host: True
+INFO:     127.0.0.1:63068 - "GET /api/auth/user/69ae75a5ce25025820062bd4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63075 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63075 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+DEBUG: Starting multiple upload for 4 files
+DEBUG: Cloudinary config - cloud: dz379xmyz, key: 13567557
+DEBUG: Uploading file 1: img1.jpeg (image/jpeg)
+DEBUG: File size: 5642791 bytes
+INFO:     127.0.0.1:63086 - "POST /api/upload/images HTTP/1.1" 400 Bad Request
+WARNING:  StatReload detected changes in 'app/api/routes/uploads.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [6976]
+INFO:     Started server process [7011]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:63621 - "GET /api/homes/69d3623f0802adb547114933 HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [7011]
+INFO:     Stopping reloader process [5445]

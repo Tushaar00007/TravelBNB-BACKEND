@@ -30,13 +30,18 @@ async def create_home(
     bathrooms: int = Form(1),
     amenities: str = Form("[]"),
     safety_features: str = Form("[]"),
+    image_urls: str = Form("[]"),
     images: List[UploadFile] = File([]),
     user_id: str = Depends(get_current_user)
 ):
     """Create a new home listing with image uploads."""
     
-    # 1. Upload Images to Cloudinary
-    image_urls = []
+    image_urls_final = []
+    try:
+        image_urls_final = json.loads(image_urls)
+    except:
+        image_urls_final = []
+
     for image in images:
         try:
             if not image.content_type.startswith("image/"):
@@ -46,7 +51,7 @@ async def create_home(
                 folder="travelbnb/homes",
                 resource_type="auto"
             )
-            image_urls.append(result.get("secure_url"))
+            image_urls_final.append(result.get("secure_url"))
         except Exception as e:
             print(f"Error uploading image to Cloudinary: {str(e)}")
 
@@ -83,7 +88,7 @@ async def create_home(
         "bathrooms": int(bathrooms),
         "amenities": amenities_list,
         "safety_features": safety_list,
-        "images": image_urls,
+        "images": image_urls_final,
         "is_active": True,
         "status": "pending",
         "created_at": datetime.utcnow(),
@@ -111,14 +116,20 @@ async def create_home(
     return {
         "message": "Home created successfully", 
         "id": str(result.inserted_id),
-        "images": image_urls
+        "images": image_urls_final
     }
 
 
 # ✅ Get Homes For Current Host
 @router.get("/host/me")
 def get_host_homes(user_id: str = Depends(get_current_user)):
-    homes = list(db.homes.find({"host_id": ObjectId(user_id)}))
+    """Fetch all homes belonging to the authenticated host."""
+    uid = ObjectId(user_id)
+    query = {"$or": [{"host_id": uid}, {"host_id": user_id}]}
+    
+    homes = list(db.homes.find(query).sort("created_at", -1))
+    print(f"DEBUG: Found {len(homes)} homes for host_id: {user_id}")
+    
     for home in homes:
         _serialize_home(home)
 
@@ -128,12 +139,31 @@ def get_host_homes(user_id: str = Depends(get_current_user)):
 def _serialize_home(home: dict) -> dict:
     if not home: return home
     home["_id"] = str(home["_id"])
+    home["id"] = str(home["_id"])
     home["host_id"] = str(home["host_id"])
+    
+    # Standardise images
+    images = home.get("images", [])
+    full_images = []
+    for img in images:
+        if isinstance(img, str):
+            if img.startswith("http"):
+                full_images.append(img)
+            else:
+                # Assuming local uploads if not http
+                full_images.append(f"http://localhost:8000/uploads/{img}")
+        elif isinstance(img, dict):
+            url = img.get("url") or img.get("secure_url", "")
+            if url: full_images.append(url)
+            
+    home["images"] = full_images
+    home["image"] = full_images[0] if full_images else ""
+    
     if "approved_by" in home:
         home["approved_by"] = [str(aid) for aid in home["approved_by"]]
     return home
 
-# ✅ Get All Homes (Public) — supports filters + sort
+# ✅ Get All Homes (Public) — supports filters + sort + city/state search
 @router.get("/")
 def get_homes(
     minPrice: float = 0,
@@ -142,20 +172,30 @@ def get_homes(
     amenities: str = None,
     sort: str = None,
     location: str = None,
+    city: str = None,
+    state: str = None,
     guests: int = None,
 ):
-    print(f"🔍 Fetching homes: {minPrice}-{maxPrice}, type={propertyType}, amenities={amenities}, sort={sort}")
+    print(f"🔍 Search homes: city={city}, state={state}, location={location}, guests={guests}, price={minPrice}-{maxPrice}")
     try:
         db.command("ping")
         
         query = {
             "price_per_night": {"$gte": minPrice, "$lte": maxPrice},
-            "status": "approved"
+            "status": "approved",
+            "is_active": True,
         }
 
-        if location:
+        # Explicit city/state params (from city-based search) — case-insensitive exact match
+        if city:
+            query["city"] = {"$regex": f"^{city}$", "$options": "i"}
+        elif location:
+            # Fallback: generic text search on city field (partial match, for the search bar location field)
             query["city"] = {"$regex": location, "$options": "i"}
-            
+
+        if state:
+            query["state"] = {"$regex": f"^{state}$", "$options": "i"}
+
         if guests:
             query["max_guests"] = {"$gte": int(guests)}
 
@@ -176,6 +216,8 @@ def get_homes(
         elif sort == "price_desc":
             sort_field, sort_dir = "price_per_night", -1
 
+        print(f"📋 MongoDB filter: {query}")
+
         homes_cursor = db.homes.find(query).sort(sort_field, sort_dir)
         homes = list(homes_cursor)
         
@@ -189,7 +231,7 @@ def get_homes(
                 home["host_trust_score"] = host.get("trust_score", 0)
             result.append(home)
 
-        print(f"✅ Successfully fetched {len(result)} homes")
+        print(f"✅ Results found: {len(result)} homes")
         return result
     except Exception as e:
         print(f"❌ Error in get_homes: {str(e)}")
@@ -206,15 +248,6 @@ def debug_homes():
         return homes
     except Exception as e:
         return {"error": str(e)}
-
-# 🛠️ Temporary Debug Route
-@router.get("/debug/all-homes")
-def debug_homes():
-    homes = list(db.homes.find())
-    for h in homes:
-        h["_id"] = str(h["_id"])
-        h["host_id"] = str(h.get("host_id", ""))
-    return homes
 
 
 # ✅ Get Single Home
@@ -300,3 +333,38 @@ def delete_home(home_id: str, user_id: str = Depends(get_current_user)):
     db.reviews.delete_many({"propertyId": home_id})
 
     return {"message": "Home deleted successfully"}
+
+# ✅ Patch Home (Partial Update)
+@router.patch("/{listing_id}")
+async def update_listing(
+    listing_id: str,
+    data: dict,
+    current_user: str = Depends(get_current_user)
+):
+    try:
+        from bson import ObjectId
+        
+        # Security: Remove sensitive fields from data
+        data.pop("_id", None)
+        data.pop("id", None)
+        data.pop("host_id", None)
+        
+        data["updated_at"] = datetime.utcnow()
+        
+        # Try properties first (some data might be in this collection)
+        result = db.properties.update_one(
+            {"_id": ObjectId(listing_id)},
+            {"$set": data}
+        )
+        
+        if result.matched_count == 0:
+            # Try homes collection
+            db.homes.update_one(
+                {"_id": ObjectId(listing_id)},
+                {"$set": data}
+            )
+        
+        return {"message": "Listing updated successfully"}
+    except Exception as e:
+        print(f"Error updating listing: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))

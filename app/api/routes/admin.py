@@ -2,8 +2,11 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from app.core.database import db
 from app.core.dependencies import require_role
 from app.utils.security import hash_password
-from datetime import datetime
+from app.services.email_service import send_email
+from app.utils.email_template import promotional_email_template
+from datetime import datetime, timedelta
 from bson import ObjectId
+import time
 
 router = APIRouter()
 
@@ -172,6 +175,38 @@ def get_users(
     return {"total": total, "page": page, "limit": limit, "data": users}
 
 
+@router.get("/users-compact")
+def get_users_compact(
+    city: str = Query(None),
+    isActive: bool = Query(None),
+    recentBookings: bool = Query(None),
+    user=Depends(require_role(SUPER))
+):
+    """Returns a filtered list of users (names/emails only) for campaigns."""
+    query = {}
+    
+    if city:
+        # Check both address.city and location.city for compatibility
+        query["$or"] = [
+            {"address.city": {"$regex": city, "$options": "i"}},
+            {"location.city": {"$regex": city, "$options": "i"}}
+        ]
+        
+    if isActive:
+        query["is_email_verified"] = True
+        
+    if recentBookings:
+        thirty_days_ago = datetime.utcnow() - timedelta(days=30)
+        # Find user IDs who have a confirmed booking in last 30 days
+        recent_user_ids = db.bookings.distinct("userId", {"createdAt": {"$gte": thirty_days_ago}})
+        query["_id"] = {"$in": recent_user_ids}
+        
+    users = list(db.users.find(query, {"name": 1, "email": 1, "address.city": 1}))
+    for u in users:
+        u["_id"] = str(u["_id"])
+    return users
+
+
 @router.put("/users/{user_id}/role")
 def update_user_role(user_id: str, payload: dict, user=Depends(require_role(SUPER))):
     new_role = payload.get("role")
@@ -315,6 +350,37 @@ def flag_listing(id: str, user=Depends(require_role(ALL_ADMINS))):
 
     _log(user, "Flagged property", entity=id)
     return {"message": "Listing flagged"}
+
+
+@router.delete("/listings/{id}")
+def delete_listing(id: str, user=Depends(require_role(ALL_ADMINS))):
+    """
+    Permanently delete a home or property listing. Restricted to admin roles.
+    """
+    if not ObjectId.is_valid(id):
+        raise HTTPException(status_code=400, detail="Invalid property ID format")
+    
+    oid = ObjectId(id)
+    deleted = False
+    
+    # 1. Try deleting from properties collection
+    result = db.properties.delete_one({"_id": oid})
+    if result.deleted_count > 0:
+        deleted = True
+        print(f"Deleted from properties: {id}")
+    
+    # 2. Try deleting from homes collection
+    if not deleted:
+        result = db.homes.delete_one({"_id": oid})
+        if result.deleted_count > 0:
+            deleted = True
+            print(f"Deleted from homes: {id}")
+    
+    if not deleted:
+        raise HTTPException(status_code=404, detail="Listing not found")
+    
+    _log(user, "Deleted listing (Admin)", entity=id)
+    return {"message": "Listing deleted successfully"}
 
 
 # ─── Crashpads ────────────────────────────────────────────────
@@ -609,3 +675,209 @@ def dev_create_super_admin(data: dict):
     db.users.insert_one(new_admin)
     return {"message": f"Super Admin {email} created! You can now log in."}
 # ═══════════════════════════════════════════════════════════════
+# ─── Bulk Upload ──────────────────────────────────────────────
+@router.post("/bulk-upload")
+def bulk_upload(payload: dict, user=Depends(require_role(SUPER_SUB))):
+    """
+    Robust bulk upload system for listings.
+    Supports homes (listing-home), crashpads, and travel-buddy.
+    """
+    collection_type = payload.get("collectionType")
+    dataRows = payload.get("data", [])
+    
+    if not collection_type or not dataRows:
+        raise HTTPException(status_code=400, detail="Missing collectionType or dataRows")
+    
+    success_count = 0
+    failure_count = 0
+    error_rows = []
+    
+    now = datetime.utcnow()
+    admin_id = ObjectId(user["id"])
+    
+    for i, row in enumerate(dataRows):
+        try:
+            # 1. Homes (listing-home)
+            if collection_type == "listing-home":
+                location_str = row.get("location", "")
+                loc_parts = [p.strip() for p in location_str.split(",")]
+                city = loc_parts[-3] if len(loc_parts) >= 3 else "Unknown"
+                state = loc_parts[-2] if len(loc_parts) >= 2 else "Unknown"
+                
+                doc = {
+                    "host_id": admin_id, # Default to admin as host for bulk upload
+                    "title": row.get("title", "Untitled Home"),
+                    "description": row.get("description", ""),
+                    "property_type": row.get("property_type", "Apartment"),
+                    "price_per_night": float(row.get("price", 0)),
+                    "currency": "INR",
+                    "location": {
+                        "address_line": location_str,
+                        "city": city.upper(),
+                        "state": state.upper(),
+                        "country": "INDIA",
+                        "lat": float(row.get("lat")) if row.get("lat") else None,
+                        "lng": float(row.get("lng")) if row.get("lng") else None,
+                    },
+                    "city": city.upper(),
+                    "state": state.upper(),
+                    "max_guests": int(row.get("max_guests", 1)),
+                    "bedrooms": int(row.get("bedrooms", 1)),
+                    "beds": int(row.get("beds", 1)),
+                    "bathrooms": int(row.get("bathrooms", 1)),
+                    "amenities": [a.strip() for a in str(row.get("amenities", "")).split(",") if a.strip()],
+                    "images": [img.strip() for img in str(row.get("images", "")).split(",") if img.strip()],
+                    "status": "approved",
+                    "is_active": True,
+                    "created_at": now,
+                    "updated_at": now
+                }
+                db.homes.insert_one(doc)
+                
+            # 2. Crashpads
+            elif collection_type == "crashpads":
+                location_str = row.get("location", "")
+                loc_parts = [p.strip() for p in location_str.split(",")]
+                city = loc_parts[-2] if len(loc_parts) >= 2 else "Unknown"
+                state = loc_parts[-1] if len(loc_parts) >= 1 else "Unknown"
+                
+                desc = row.get("description", "")
+                if row.get("nearbyTransport"):
+                    desc += f"\n\nNearby Transport: {row.get('nearbyTransport')}"
+                
+                doc = {
+                    "host_id": admin_id,
+                    "title": row.get("name", "Untitled Crashpad"),
+                    "description": desc,
+                    "price_per_night": float(row.get("pricePerNight", 0)),
+                    "location": {
+                        "city": city.upper(),
+                        "state": state.upper(),
+                        "lat": float(row.get("lat")) if row.get("lat") else None,
+                        "lng": float(row.get("lng")) if row.get("lng") else None,
+                    },
+                    "images": [img.strip() for img in str(row.get("images", "")).split(",") if img.strip()],
+                    "preferences": [f.strip() for f in str(row.get("facilities", "")).split(",") if f.strip()],
+                    "stay_type": "Hostel",
+                    "host_bio": "Professional managed crashpad listing.",
+                    "status": "approved",
+                    "is_active": True,
+                    "created_at": now,
+                    "updated_at": now
+                }
+                db.crashpads_listings.insert_one(doc)
+                
+            # 3. Travel Buddy
+            elif collection_type == "travel-buddy":
+                dates_str = row.get("travelDates", "")
+                start_date, end_date = "2026-01-01", "2026-01-07"
+                if " to " in dates_str:
+                    parts = dates_str.split(" to ")
+                    start_date = parts[0].strip()
+                    end_date = parts[1].strip()
+                
+                doc = {
+                    "user_id": admin_id,
+                    "destination": row.get("destination", "New Delhi"),
+                    "start_date": start_date,
+                    "end_date": end_date,
+                    "budget": float(row.get("budget", 0)),
+                    "interests": [i.strip() for i in str(row.get("interests", "")).split(",") if i.strip()],
+                    "description": row.get("bio", ""),
+                    "created_at": now
+                }
+                db.travel_buddies.insert_one(doc)
+            
+            else:
+                raise ValueError(f"Invalid collection type: {collection_type}")
+                
+            success_count += 1
+            
+        except Exception as e:
+            failure_count += 1
+            error_rows.append({
+                "row_index": i,
+                "data": row,
+                "error": str(e)
+            })
+            
+    _log(user, f"Bulk uploaded {success_count} listings to {collection_type} ({failure_count} failures)")
+    
+    return {
+        "successCount": success_count,
+        "failureCount": failure_count,
+        "errorRows": error_rows
+    }
+
+
+# ─── Promotions & Messaging ───────────────────────────────────
+@router.post("/send-promotions")
+def send_promotions(payload: dict, user=Depends(require_role(SUPER))):
+    """
+    Safely sends batch-based promotional emails to users.
+    Includes deduplication, logging, and error tracking.
+    """
+    subject = payload.get("subject")
+    message = payload.get("message")
+    recipients = payload.get("users", []) # Expects list of objects with an 'email' field
+    cta_link = payload.get("ctaLink")
+
+    if not subject or not message or not recipients:
+        raise HTTPException(status_code=400, detail="Subject, message, and at least one recipient are required")
+
+    # 1. Deduplicate & Clean
+    raw_emails = [r.get("email", "").strip().lower() for r in recipients]
+    unique_emails = list(dict.fromkeys([e for e in raw_emails if "@" in e])) # preserves order
+    total_count = len(unique_emails)
+
+    if total_count > 1000:
+        raise HTTPException(status_code=400, detail="Max 1000 emails per campaign for safety.")
+
+    # 2. Preparation
+    success_count = 0
+    failure_count = 0
+    failed_emails = []
+    html_body = promotional_email_template(message, cta_link)
+
+    # 3. Batch Sending (50 per batch)
+    BATCH_SIZE = 50
+    for i in range(0, total_count, BATCH_SIZE):
+        batch = unique_emails[i : i + BATCH_SIZE]
+        
+        for email in batch:
+            try:
+                # send_email from email_service
+                res = send_email(email, subject, html_body)
+                if res:
+                    success_count += 1
+                else:
+                    failure_count += 1
+                    failed_emails.append(email)
+            except Exception as e:
+                print(f"Error sending promotion to {email}: {e}")
+                failure_count += 1
+                failed_emails.append(email)
+            
+            # Small delay after each send to respect 2 req/sec limit
+            time.sleep(0.55)
+
+    # 4. Campaign Logging
+    campaign = {
+        "admin_id":  ObjectId(user["id"]),
+        "subject":   subject,
+        "message":   message,
+        "total":     total_count,
+        "sent":      success_count,
+        "failed":    failure_count,
+        "created_at": datetime.utcnow()
+    }
+    db.email_campaigns.insert_one(campaign)
+    _log(user, f"Dispatched promotional campaign: {subject}", entity=str(total_count))
+
+    return {
+        "success": True,
+        "total": total_count,
+        "sent": success_count,
+        "failed": failure_count,
+        "failedEmails": failed_emails
+    }

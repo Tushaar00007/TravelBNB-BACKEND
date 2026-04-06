@@ -6,6 +6,9 @@ import os
 from bson import ObjectId
 
 SECRET_KEY = os.getenv("JWT_SECRET")
+if not SECRET_KEY:
+    print("!!! WARNING: JWT_SECRET not found in environment. Using insecure fallback !!!")
+    SECRET_KEY = "dev_fallback_secret_key_change_in_production"
 ALGORITHM = "HS256"
 
 security = HTTPBearer()

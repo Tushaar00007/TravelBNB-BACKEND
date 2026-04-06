@@ -3,6 +3,7 @@ from app.core.database import db
 from app.core.dependencies import get_current_user
 from datetime import datetime
 from bson import ObjectId
+from app.models.schemas import BookingRequestSchema, PaymentConfirmation
 
 router = APIRouter()
 
@@ -10,6 +11,7 @@ router = APIRouter()
 # ✅ CREATE BOOKING (POST /api/bookings)
 @router.post("/")
 def create_booking(data: dict, user_id: str = Depends(get_current_user)):
+    print(f"!!! POST /bookings/ RECEIVED DATA: {data} FROM USER: {user_id} !!!")
 
     # Support both "home_id" and "propertyId" from frontend payloads
     prop_id = data.get("propertyId") or data.get("home_id")
@@ -75,6 +77,212 @@ def create_booking(data: dict, user_id: str = Depends(get_current_user)):
         "message": "Booking confirmed",
         "booking_id": str(result.inserted_id),
         "total_price": total_price
+    }
+
+
+# ✅ REQUEST BOOKING (POST /api/bookings/request)
+@router.post("/request")
+async def create_booking_request(request: BookingRequestSchema, db=Depends(lambda: db)):
+    try:
+        new_booking = {
+            "propertyId": ObjectId(request.property_id),
+            "hostId": ObjectId(request.host_id),
+            "userId": ObjectId(request.guest_id) if request.guest_id else None,
+            "checkIn": datetime.fromisoformat(request.check_in),
+            "checkOut": datetime.fromisoformat(request.check_out),
+            "guests": request.guests,
+            "totalPrice": request.total_price,
+            "bookingStatus": request.status if request.status else "pending",
+            "paymentStatus": "pending",
+            "createdAt": datetime.utcnow(),
+        }
+        
+        result = db.bookings.insert_one(new_booking)
+        booking_id = str(result.inserted_id)
+        
+        print(f"Booking request created: {booking_id}")
+        
+        return {
+            "booking_request_id": booking_id,
+            "status": "pending",
+            "message": "Booking request created successfully"
+        }
+        
+    except Exception as e:
+        import traceback
+        print(f"Error creating booking: {e}")
+        print(traceback.format_exc())
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/{booking_id}")
+async def get_booking_by_id(booking_id: str, current_user: str = Depends(get_current_user)):
+    """
+    Fetch details for a specific booking/request by ID.
+    Used by checkout page as 'Source of Truth'.
+    """
+    try:
+        booking = db.bookings.find_one({"_id": ObjectId(booking_id)})
+        if not booking:
+            raise HTTPException(status_code=404, detail="Booking not found")
+        
+        # Format for frontend
+        res = {
+            "booking_request_id": str(booking["_id"]),
+            "property_id": str(booking.get("propertyId", "")),
+            "host_id": str(booking.get("hostId", "")),
+            "user_id": str(booking.get("userId", "")),
+            "check_in": booking["checkIn"].isoformat() if isinstance(booking.get("checkIn"), datetime) else booking.get("checkIn"),
+            "check_out": booking["checkOut"].isoformat() if isinstance(booking.get("checkOut"), datetime) else booking.get("checkOut"),
+            "guests": booking.get("guests", 1),
+            "total_price": booking.get("totalPrice", 0),
+            "booking_status": booking.get("bookingStatus", "pending")
+        }
+
+        # Optionally attach property info
+        prop = db.homes.find_one({"_id": booking["propertyId"]})
+        if prop:
+            res["property_name"] = prop.get("title")
+            res["property_image"] = prop.get("images", [None])[0]
+
+        return res
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ✅ APPROVE BOOKING (PATCH /api/bookings/{id}/approve)
+@router.patch("/{booking_id}/approve")
+def approve_booking(booking_id: str, user_id: str = Depends(get_current_user)):
+    result = db.bookings.update_one(
+        {"_id": ObjectId(booking_id)},
+        {"$set": {"bookingStatus": "approved", "approved_at": datetime.utcnow()}}
+    )
+
+    # 🔄 Synchronize status in all related messages
+    db.messages.update_many(
+        {"booking_request_id": booking_id},
+        {"$set": {"booking_status": "approved"}}
+    )
+    return {
+        "booking_request_id": booking_id, 
+        "booking_status": "approved", 
+        "status": "approved",
+        "message": "Booking approved"
+    }
+
+
+# ✅ DECLINE BOOKING (PATCH /api/bookings/{id}/decline)
+@router.patch("/{booking_id}/decline")
+def decline_booking(booking_id: str, user_id: str = Depends(get_current_user)):
+    result = db.bookings.update_one(
+        {"_id": ObjectId(booking_id)},
+        {"$set": {"bookingStatus": "rejected", "rejected_at": datetime.utcnow()}}
+    )
+
+    # 🔄 Synchronize status in all related messages
+    db.messages.update_many(
+        {"booking_request_id": booking_id},
+        {"$set": {"booking_status": "rejected"}}
+    )
+    return {
+        "booking_request_id": booking_id, 
+        "booking_status": "rejected", 
+        "status": "rejected",
+        "message": "Booking declined"
+    }
+
+
+# ✅ REJECT BOOKING (Alias for /decline)
+@router.patch("/{booking_id}/reject")
+def reject_booking(booking_id: str, user_id: str = Depends(get_current_user)):
+    return decline_booking(booking_id, user_id)
+
+
+    return {"booking_request_id": booking_id, "status": "confirmed"}
+
+
+@router.post("/confirm-payment")
+async def confirm_payment(
+    payment: PaymentConfirmation,
+    current_user: str = Depends(get_current_user)
+):
+    """
+    Final confirmation of a booking after guest processes payment.
+    """
+    booking_id = payment.booking_request_id
+    amount = payment.amount
+    payment_method = payment.payment_method
+    transaction_id = payment.transaction_id
+
+    # Find the booking request
+    booking = db.bookings.find_one({"_id": ObjectId(booking_id)})
+    if not booking:
+        raise HTTPException(status_code=404, detail="Booking request not found")
+
+    # Update booking status
+    db.bookings.update_one(
+        {"_id": ObjectId(booking_id)},
+        {"$set": {
+            "bookingStatus": "confirmed",
+            "paymentStatus": "success",
+            "paymentMethod": payment_method,
+            "amountPaid": float(amount),
+            "transactionId": transaction_id,
+            "confirmedAt": datetime.utcnow()
+        }}
+    )
+
+    # 🔄 Synchronize status in all related messages
+    db.messages.update_many(
+        {"booking_request_id": booking_id},
+        {"$set": {"booking_status": "confirmed"}}
+    )
+
+    # Record Transaction
+    transaction = {
+        "user_id": ObjectId(current_user),
+        "amount": float(amount),
+        "type": "booking_payment",
+        "status": "success",
+        "booking_id": ObjectId(booking_id),
+        "transaction_id": transaction_id,
+        "created_at": datetime.utcnow()
+    }
+    db.transactions.insert_one(transaction)
+
+    # 🚀 AUTO CREATE TRIP
+    try:
+        # Check if trip already exists
+        if not db.trips.find_one({"booking_id": ObjectId(booking_id)}):
+            # Fetch property title for naming
+            prop = db.homes.find_one({"_id": ObjectId(booking.get("propertyId"))}, {"title": 1})
+            prop_title = prop.get("title", "Stay") if prop else "Stay"
+            
+            trip_doc = {
+                "title": f"Trip to {prop_title}",
+                "booking_id": ObjectId(booking_id),
+                "property_id": ObjectId(booking.get("propertyId")),
+                "userId": ObjectId(current_user), # Explicit userId for queries
+                "owner_id": ObjectId(current_user),
+                "members": [ObjectId(current_user)],
+                "start_date": booking.get("checkIn"),
+                "end_date": booking.get("checkOut"),
+                "created_at": datetime.utcnow(),
+            }
+            db.trips.insert_one(trip_doc)
+            print(f"!!! SUCCESS: Trip '{trip_doc['title']}' automatically created for booking {booking_id} !!!")
+        else:
+            print(f"!!! INFO: Trip for booking {booking_id} already exists, skipping creation. !!!")
+    except Exception as trip_err:
+        print(f"!!! ERROR: Failed to auto-create trip: {trip_err} !!!")
+        import traceback
+        print(traceback.format_exc())
+
+    return {
+        "success": True, 
+        "booking_id": booking_id,
+        "message": "Payment confirmed and trip created",
+        "transaction_id": transaction_id
     }
 
 
@@ -145,15 +353,52 @@ def get_host_bookings(user_id: str = Depends(get_current_user)):
 # ✅ GET MY BOOKINGS (GET /api/bookings/user/)
 @router.get("/user/")
 def get_my_bookings(user_id: str = Depends(get_current_user)):
+    """Get all bookings for the current user enriched with property info"""
+    try:
+        print(f"=== FETCHING BOOKINGS FOR USER: {user_id} ===")
+        # Fetch all bookings for this user
+        bookings_cursor = db.bookings.find({"userId": ObjectId(user_id)}).sort("checkIn", -1)
+        bookings = list(bookings_cursor)
+        print(f"Found {len(bookings)} bookings in database")
 
-    bookings = list(db.bookings.find({"userId": ObjectId(user_id)}))
+        # Enrich each booking with property info
+        for booking in bookings:
+            try:
+                # 🚀 STRINGIFY ALL OBJECTIDS FIRST (to prevent JSON serialization errors)
+                for key, value in booking.items():
+                    if isinstance(value, ObjectId):
+                        booking[key] = str(value)
 
-    for booking in bookings:
-        booking["_id"] = str(booking["_id"])
-        booking["userId"] = str(booking["userId"])
-        booking["propertyId"] = str(booking["propertyId"])
+                # Fetch property details (Homes collection)
+                if booking.get("propertyId"):
+                    property_data = db.homes.find_one({"_id": ObjectId(booking["propertyId"])})
+                    if property_data:
+                        booking["homeDetails"] = {
+                            "title": property_data.get("title", "Unknown Title"),
+                            "images": property_data.get("images", []),
+                            "city": property_data.get("city", "Unknown City"),
+                            "address": property_data.get("address", "")
+                        }
+                    else:
+                        booking["homeDetails"] = None
+                else:
+                    booking["homeDetails"] = None
 
-    return bookings
+                # Format dates for JSON
+                for date_key in ["checkIn", "checkOut", "createdAt"]:
+                    if date_key in booking and isinstance(booking[date_key], datetime):
+                        booking[date_key] = booking[date_key].isoformat()
+
+            except Exception as inner_e:
+                print(f"!!! Error enriching booking {booking.get('_id')}: {inner_e} !!!")
+                booking["homeDetails"] = None
+
+        return {"bookings": bookings, "error": None}
+    except Exception as e:
+        print(f"!!! TOP-LEVEL Error in get_my_bookings: {e} !!!")
+        import traceback
+        print(traceback.format_exc())
+        return {"bookings": [], "error": str(e)}
 
 
 # ✅ CANCEL BOOKING (DELETE /api/bookings/)
