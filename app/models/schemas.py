@@ -27,3 +27,10 @@ class PaymentConfirmation(BaseModel):
     payment_method: str
     amount: float
     transaction_id: str
+
+class StayRequestSchema(BaseModel):
+    message: str
+    check_in: str
+    check_out: str
+    guests: int
+    total_price: float

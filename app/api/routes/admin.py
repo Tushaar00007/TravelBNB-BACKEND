@@ -227,8 +227,51 @@ def delete_user(user_id: str, user=Depends(require_role(SUPER))):
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="User not found")
 
-    _log(user, "Deleted user", entity=user_id)
     return {"message": "User deleted"}
+
+
+# ─── Admin Management ─────────────────────────────────────────
+@router.get("/admins")
+def list_admins(user=Depends(require_role(SUPER))):
+    """List all users with administrative roles."""
+    admins = list(db.users.find({
+        "role": {"$in": ["admin", "sub_admin", "super_admin"]}
+    }))
+    
+    return [{
+        "_id": str(a["_id"]),
+        "name": a.get("name", ""),
+        "email": a.get("email", ""),
+        "role": a.get("role", ""),
+        "created_at": str(a.get("created_at", a.get("createdAt", "")))
+    } for a in admins]
+
+
+@router.delete("/admins/{admin_id}")
+def delete_admin(admin_id: str, user=Depends(require_role(SUPER))):
+    """Delete an administrative account with safety checks."""
+    if not ObjectId.is_valid(admin_id):
+        raise HTTPException(status_code=400, detail="Invalid admin ID format")
+        
+    target_oid = ObjectId(admin_id)
+    
+    # 1. Cannot delete yourself
+    if str(user["id"]) == admin_id:
+        raise HTTPException(status_code=400, detail="Cannot delete your own account")
+    
+    # 2. Find the target
+    target = db.users.find_one({"_id": target_oid})
+    if not target:
+        raise HTTPException(status_code=404, detail="Admin not found")
+    
+    # 3. Cannot delete other super admins
+    if target.get("role") == "super_admin":
+        raise HTTPException(status_code=400, detail="Cannot delete a super_admin account")
+    
+    result = db.users.delete_one({"_id": target_oid})
+    _log(user, f"Deleted admin user: {target.get('email')}", entity=admin_id)
+    
+    return {"success": True, "deleted_count": result.deleted_count}
 
 
 @router.put("/users/{user_id}/verify")
@@ -462,6 +505,100 @@ def ban_travel_buddy(id: str, user=Depends(require_role(SUPER_ADMIN))):
     db.users.update_one({"_id": ObjectId(user_id)}, {"$set": {"status": "banned"}})
     _log(user, "Banned travel buddy user", entity=str(user_id))
     return {"message": "User banned"}
+
+
+@router.delete("/travel-buddy/{id}")
+def delete_travel_buddy_admin(id: str, admin=Depends(require_role(ALL_ADMINS))):
+    """
+    Permanently delete a travel buddy listing. Restricted to admin roles.
+    """
+    try:
+        if not ObjectId.is_valid(id):
+            raise HTTPException(status_code=400, detail="Invalid profile ID format")
+            
+        result = db.travel_buddies.delete_one({"_id": ObjectId(id)})
+        
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Travel buddy profile not found")
+            
+        _log(admin, "Permanently deleted travel buddy profile", entity=id)
+        return {"message": "Deleted successfully"}
+    except HTTPException: raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ─── New Travel Buddy Moderation (Singular Route Pattern) ───
+@router.patch("/travelbuddy/{id}/approve")
+def approve_travel_buddy(id: str, admin=Depends(require_role(ALL_ADMINS))):
+    try:
+        if not ObjectId.is_valid(id):
+            raise HTTPException(status_code=400, detail="Invalid profile ID format")
+            
+        result = db.travel_buddies.update_one(
+            {"_id": ObjectId(id)},
+            {"$set": {"status": "approved", "updated_at": datetime.utcnow()}}
+        )
+        
+        if result.matched_count == 0:
+            raise HTTPException(status_code=404, detail="Travel buddy profile not found")
+            
+        _log(admin, "Approved travel buddy profile", entity=id)
+        return {"message": "User approved"}
+    except HTTPException: raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.patch("/travelbuddy/{id}/reject")
+def reject_travel_buddy(id: str, admin=Depends(require_role(ALL_ADMINS))):
+    try:
+        if not ObjectId.is_valid(id):
+            raise HTTPException(status_code=400, detail="Invalid profile ID format")
+            
+        result = db.travel_buddies.update_one(
+            {"_id": ObjectId(id)},
+            {"$set": {"status": "rejected", "updated_at": datetime.utcnow()}}
+        )
+        
+        if result.matched_count == 0:
+            raise HTTPException(status_code=404, detail="Travel buddy profile not found")
+            
+        _log(admin, "Rejected travel buddy profile", entity=id)
+        return {"message": "User rejected"}
+    except HTTPException: raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.patch("/travelbuddy/{id}/ban")
+def ban_travel_buddy_singular(id: str, admin=Depends(require_role(SUPER_ADMIN))):
+    try:
+        if not ObjectId.is_valid(id):
+            raise HTTPException(status_code=400, detail="Invalid profile ID format")
+            
+        profile = db.travel_buddies.find_one({"_id": ObjectId(id)})
+        if not profile:
+            raise HTTPException(status_code=404, detail="Profile not found")
+            
+        user_id = profile.get("user_id")
+        
+        # 1. Update Profile Status
+        db.travel_buddies.update_one(
+            {"_id": ObjectId(id)},
+            {"$set": {"status": "banned", "updated_at": datetime.utcnow()}}
+        )
+        
+        # 2. Update User Account Status
+        if user_id:
+            db.users.update_one(
+                {"_id": ObjectId(user_id)},
+                {"$set": {"status": "banned", "updated_at": datetime.utcnow()}}
+            )
+            
+        _log(admin, "Banned travel buddy user and profile", entity=id)
+        return {"message": "User banned"}
+    except HTTPException: raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 # ─── Bookings ─────────────────────────────────────────────────

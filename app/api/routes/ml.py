@@ -43,12 +43,17 @@ async def download_pdf(request: ItineraryRequest):
     if isinstance(pdf_stream, dict) and "error" in pdf_stream:
         return pdf_stream
 
+    filename = f"itinerary_{request.location.lower().replace(' ', '_')}.pdf"
+    
+    headers = {
+        "Content-Disposition": f'attachment; filename="{filename}"',
+        "Content-Type": "application/pdf"
+    }
+
     return StreamingResponse(
         pdf_stream,
         media_type="application/pdf",
-        headers={
-            "Content-Disposition": f"attachment; filename=itinerary_{request.location.lower()}.pdf"
-        }
+        headers=headers
     )
 
 @router.post("/chat")

@@ -18,6 +18,65 @@ class SendMessageRequest(BaseModel):
     reply_to: Optional[str] = None
 
 # ─────────────────────────────────────────────
+# POST /api/messages/{message_id}/translate
+# Cached per-message translation
+# ─────────────────────────────────────────────
+@router.post("/{message_id}/translate")
+def translate_message(message_id: str, payload: dict):
+    """
+    Translate a specific message and cache the result on the message document.
+    Subsequent requests for the same message + target language return the cached version.
+    """
+    from app.services.sarvam_service import translate_text
+
+    target_lang = payload.get("targetLanguage", "en-IN")
+    if not target_lang:
+        raise HTTPException(status_code=400, detail="targetLanguage is required")
+
+    try:
+        oid = ObjectId(message_id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid message ID")
+
+    msg = db.messages.find_one({"_id": oid})
+    if not msg:
+        raise HTTPException(status_code=404, detail="Message not found")
+
+    # Check cache first
+    cached = (msg.get("translations") or {}).get(target_lang)
+    if cached:
+        return {
+            "translated": cached,
+            "target_language": target_lang,
+            "cached": True,
+        }
+
+    # Get original text
+    original = (
+        msg.get("messageOriginal")
+        or msg.get("message")
+        or msg.get("content")
+        or ""
+    )
+    if not original.strip():
+        return {"translated": "", "target_language": target_lang, "cached": False}
+
+    # Call Sarvam
+    translated = translate_text(original, "auto", target_lang)
+
+    # Cache on the message document under translations.<lang>
+    db.messages.update_one(
+        {"_id": oid},
+        {"$set": {f"translations.{target_lang}": translated}}
+    )
+
+    return {
+        "translated": translated,
+        "target_language": target_lang,
+        "cached": False,
+    }
+
+# ─────────────────────────────────────────────
 # POST /api/messages/translate
 # ─────────────────────────────────────────────
 @router.post("/translate")
@@ -43,21 +102,29 @@ async def send_message(request: SendMessageRequest):
         from datetime import datetime
         
         def to_oid(id_str):
+            if not id_str: return None
             try:
-                return ObjectId(str(id_str))
+                # Remove ANY accidental whitespace (fixes the "space in ID" bug)
+                clean_id = str(id_str).replace(" ", "").strip()
+                return ObjectId(clean_id)
             except:
-                return str(id_str)
+                return str(id_str).replace(" ", "").strip()
         
+        s_id = str(request.sender_id).replace(" ", "").strip()
+        r_id = str(request.recipient_id).replace(" ", "").strip()
+        p_id = str(request.property_id).replace(" ", "").strip() if request.property_id else None
+        br_id = str(request.booking_request_id).replace(" ", "").strip() if request.booking_request_id else None
+
         new_msg = {
             # Store in camelCase to match existing DB format
-            "senderId": to_oid(request.sender_id),
-            "receiverId": to_oid(request.recipient_id),
+            "senderId": to_oid(s_id),
+            "receiverId": to_oid(r_id),
             "messageOriginal": request.message,
             "messageTranslated": request.message,
             "message": request.message,
-            "propertyId": to_oid(request.property_id) if request.property_id else None,
+            "propertyId": to_oid(p_id) if p_id else None,
             "property_name": request.property_name or "",
-            "booking_request_id": to_oid(request.booking_request_id) if request.booking_request_id else None,
+            "booking_request_id": to_oid(br_id) if br_id else None,
             "booking_status": request.booking_status or "pending",
             "sourceLanguage": "auto",
             "targetLanguage": "en-IN",
@@ -65,8 +132,8 @@ async def send_message(request: SendMessageRequest):
             "reply_to": to_oid(request.reply_to) if request.reply_to else None,
             "createdAt": datetime.utcnow(),
             # Also store snake_case for backwards compatibility
-            "sender_id": str(request.sender_id),
-            "recipient_id": str(request.recipient_id),
+            "sender_id": s_id,
+            "recipient_id": r_id,
             "created_at": datetime.utcnow(),
         }
         
@@ -102,22 +169,18 @@ async def get_conversations(user_id: str):
             id_variants.append(user_oid)
         
         print(f"Getting conversations for: {user_id_str}")
-        print(f"ID variants: {id_variants}")
         
-        # Query with ALL possible field name formats
+        # Query messages
         messages = list(db.messages.find({
             "$or": [
-                # camelCase (actual DB format)
                 {"senderId": {"$in": id_variants}},
                 {"receiverId": {"$in": id_variants}},
-                # snake_case (legacy)
                 {"sender_id": {"$in": id_variants}},
                 {"recipient_id": {"$in": id_variants}},
                 {"receiver_id": {"$in": id_variants}},
             ]
         }).sort("createdAt", -1))
         
-        # Try created_at if createdAt returns nothing
         if not messages:
             messages = list(db.messages.find({
                 "$or": [
@@ -128,16 +191,11 @@ async def get_conversations(user_id: str):
                 ]
             }).sort("created_at", -1))
         
-        print(f"Messages found: {len(messages)}")
+        # 1. Group by other_id and collect participant IDs
+        conversations_raw = {}
+        participant_ids = {user_id_str} 
         
-        if messages:
-            sample = messages[0]
-            print(f"Sample message keys: {list(sample.keys())}")
-        
-        # Group into conversations
-        conversations = {}
         for msg in messages:
-            # Get sender and receiver handling both formats
             sender = str(msg.get("senderId") or msg.get("sender_id", ""))
             receiver = str(msg.get("receiverId") or msg.get("receiver_id") or msg.get("recipient_id", ""))
             
@@ -145,62 +203,112 @@ async def get_conversations(user_id: str):
             if not other_id or other_id == user_id_str:
                 continue
             
-            if other_id not in conversations:
-                # Get other user info
-                other_user = None
+            participant_ids.add(other_id)
+            if other_id not in conversations_raw:
+                conversations_raw[other_id] = msg
+        
+        # 2. Bulk Fetch Participant Details
+        participant_oids = []
+        for pid in participant_ids:
+            try: participant_oids.append(ObjectId(pid))
+            except: pass
+            
+        users_cursor = db.users.find({
+            "$or": [
+                {"_id": {"$in": participant_oids}},
+                {"id": {"$in": list(participant_ids)}}
+            ]
+        }, {"_id": 1, "id": 1, "name": 1, "profile_image": 1})
+        
+        user_map = {}
+        for u in users_cursor:
+            uid = str(u["_id"])
+            user_map[uid] = {
+                "_id": uid,
+                "name": u.get("name", "User"),
+                "avatar": u.get("profile_image", "")
+            }
+        
+        # Ensure current user is in map
+        if user_id_str not in user_map:
+            user_map[user_id_str] = {"_id": user_id_str, "name": "You", "avatar": ""}
+
+        # 3. Build Response
+        result = []
+        for other_id, msg in conversations_raw.items():
+            other_user_info = user_map.get(other_id, {"_id": other_id, "name": "Unknown User", "avatar": ""})
+            current_user_info = user_map.get(user_id_str, {"_id": user_id_str, "name": "You", "avatar": ""})
+            
+            # Add profile_image key to otherUser for frontend compatibility
+            other_user_info["profile_image"] = other_user_info.get("avatar", "")
+            current_user_info["profile_image"] = current_user_info.get("avatar", "")
+            
+            # Fetch property/home context to determine roles
+            prop_id = str(msg.get("propertyId") or msg.get("property_id", ""))
+            host_id = None
+            guest_id = None
+            is_host = False
+            property_info = None
+            
+            if prop_id:
                 try:
-                    other_user = db.users.find_one({
-                        "$or": [
-                            {"_id": ObjectId(other_id)},
-                            {"id": other_id},
-                        ]
-                    })
+                    property_info = db.homes.find_one({"_id": ObjectId(prop_id)}) or db.properties.find_one({"_id": ObjectId(prop_id)})
+                    if property_info:
+                        host_id = str(property_info.get("host_id") or property_info.get("userId") or "")
+                        is_host = (host_id == user_id_str)
+                        # If I am host, other is guest. If I am guest, other is host.
+                        if is_host:
+                            guest_id = other_id
+                        else:
+                            guest_id = user_id_str
+                            # host_id is already set from property_info
                 except:
                     pass
-                
-                # Get property info
-                prop_id = str(msg.get("propertyId") or msg.get("property_id", ""))
-                property_info = None
-                if prop_id:
-                    try:
-                        property_info = db.properties.find_one({"_id": ObjectId(prop_id)}) or db.homes.find_one({"_id": ObjectId(prop_id)})
-                    except:
-                        pass
-                
-                last_msg = str(
-                    msg.get("messageOriginal") 
-                    or msg.get("messageTranslated")
-                    or msg.get("message", "")
-                )[:60]
-                
-                # Determine if current user is host for this property
-                is_host = False
-                if prop_id:
-                    try:
-                        # Check homes and properties collections
-                        p_doc = db.homes.find_one({"_id": ObjectId(prop_id)}) or db.properties.find_one({"_id": ObjectId(prop_id)})
-                        if p_doc and (str(p_doc.get("host_id")) == user_id_str or str(p_doc.get("userId")) == user_id_str):
-                            is_host = True
-                    except:
-                        pass
+            
+            # Fallback for Travel Buddy or direct messages
+            if not host_id:
+                # For Travel Buddy, the listing owner (receiver of first message) is host
+                if msg.get("message_type") == "travel_buddy_connect":
+                    host_id = str(msg.get("receiver_id") or msg.get("receiverId") or "")
+                    guest_id = str(msg.get("sender_id") or msg.get("senderId") or "")
+                    is_host = (host_id == user_id_str)
+                else:
+                    # Generic: sender of first message in thread is guest, receiver is host
+                    # But since we group by other_id, we just use a heuristic
+                    is_host = False 
+            
+            last_msg = str(
+                msg.get("messageOriginal") 
+                or msg.get("messageTranslated")
+                or msg.get("message")
+                or msg.get("content")
+                or ""
+            )[:60]
 
-                conversations[other_id] = {
-                    "conversation_id": f"{user_id_str}_{other_id}",
-                    "other_user_id": other_id,
-                    "other_user_name": other_user.get("name", "User") if other_user else "User",
-                    "other_user_avatar": other_user.get("profile_image", "") if other_user else "",
-                    "last_message": last_msg,
-                    "last_message_time": str(msg.get("createdAt") or msg.get("created_at", "")),
-                    "property_name": property_info.get("title", "") if property_info else "",
-                    "property_id": prop_id,
-                    "booking_status": msg.get("booking_status", "pending"),
-                    "unread_count": 0,
-                    "reactions": msg.get("reactions", []),
-                    "is_host": is_host
-                }
-        
-        result = list(conversations.values())
-        print(f"Conversations returning: {len(result)}")
+            result.append({
+                "_id": f"{user_id_str}_{other_id}",
+                "conversation_id": f"{user_id_str}_{other_id}",
+                "participants": [current_user_info, other_user_info],
+                "otherUser": other_user_info,
+                "other_user_id": other_id,
+                "other_user_name": other_user_info["name"],
+                "other_user_avatar": other_user_info["avatar"],
+                "lastMessage": last_msg,
+                "last_message": last_msg,
+                "updatedAt": str(msg.get("createdAt") or msg.get("created_at", "")),
+                "last_message_time": str(msg.get("createdAt") or msg.get("created_at", "")),
+                "propertyName": property_info.get("title", "") if property_info else "",
+                "property_name": property_info.get("title", "") if property_info else "",
+                "property_id": prop_id,
+                "booking_status": msg.get("booking_status", "pending"),
+                "unread_count": 0,
+                "reactions": msg.get("reactions", []),
+                "isHost": is_host,
+                "is_host": is_host,
+                "host_id": host_id,
+                "guest_id": guest_id
+            })
+            
         return result
         
     except Exception as e:
@@ -217,9 +325,10 @@ async def get_messages(user_id: str, other_user_id: str):
         from bson import ObjectId
         
         def get_variants(id_str):
-            variants = [id_str]
+            clean_id = str(id_str).replace(" ", "").strip()
+            variants = [clean_id]
             try:
-                variants.append(ObjectId(id_str))
+                variants.append(ObjectId(clean_id))
             except:
                 pass
             return variants
@@ -262,8 +371,11 @@ async def get_messages(user_id: str, other_user_id: str):
                 "message": str(
                     msg.get("messageOriginal") 
                     or msg.get("messageTranslated")
-                    or msg.get("message", "")
+                    or msg.get("message")
+                    or msg.get("content")
+                    or ""
                 ),
+                "translations": msg.get("translations", {}),
                 "booking_request_id": str(msg.get("booking_request_id") or "") or None,
                 "booking_status": msg.get("booking_status"),
                 "created_at": str(msg.get("createdAt") or msg.get("created_at", "")),

@@ -1,13 +1,8 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from dotenv import load_dotenv
-from pathlib import Path
 
-# Get project root (TRAVELBNB BACKEND)
-project_root = Path(__file__).parent.parent
-env_path = project_root / ".env"
-load_dotenv(dotenv_path=env_path)
+from app.core.config import settings
 
 from app.api.routes.auth import router as auth_router
 from app.api.routes.homes import router as home_router
@@ -26,23 +21,18 @@ from app.api.routes.otp import router as otp_router
 from app.api.routes.maps import router as maps_router
 from app.api.routes.host import router as host_router
 from app.api.routes.users import router as users_router
+from app.api.routes.itinerary import router as itinerary_router
 
-app = FastAPI()
+app = FastAPI(title=settings.APP_NAME, version=settings.VERSION)
 
+# ✅ CORS MIDDLEWARE
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://localhost:5174",
-        "http://localhost:3000",
-        "http://127.0.0.1:5173",
-        "http://127.0.0.1:5174",
-        "http://127.0.0.1:3000",
-    ],
+    allow_origins=settings.ALLOWED_ORIGINS,
+    allow_origin_regex=r"https://travel-bnb-frontend-.*\.vercel\.app",
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allow_methods=["*"],
     allow_headers=["*"],
-    expose_headers=["*"],
 )
 
 # ✅ GLOBAL EXCEPTION HANDLER (Ensures CORS headers on 500 errors)
@@ -59,11 +49,7 @@ async def global_exception_handler(request: Request, exc: Exception):
     
     # Manually add CORS headers if the middleware skipped them due to the crash
     origin = request.headers.get("origin")
-    if origin in [
-        "http://localhost:5173", "http://127.0.0.1:5173",
-        "http://localhost:5174", "http://127.0.0.1:5174",
-        "http://localhost:3000", "http://127.0.0.1:3000"
-    ]:
+    if origin in settings.ALLOWED_ORIGINS or (origin and origin.startswith("https://travel-bnb-frontend-") and origin.endswith(".vercel.app")):
         response.headers["Access-Control-Allow-Origin"] = origin
         response.headers["Access-Control-Allow-Credentials"] = "true"
         
@@ -87,6 +73,7 @@ app.include_router(otp_router, prefix="/api/otp", tags=["OTP Verification"])
 app.include_router(maps_router, prefix="/api", tags=["Maps"])
 app.include_router(host_router, prefix="/api/host", tags=["Host Management"])
 app.include_router(users_router, prefix="/api/users", tags=["Users"])
+app.include_router(itinerary_router, prefix="/api/itinerary", tags=["Itinerary"])
 
 # Removed 2dsphere index creation for scalar lat/lng migration as requested.
 @app.get("/")

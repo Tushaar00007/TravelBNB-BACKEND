@@ -97,20 +97,30 @@ async def create_home(
 
     result = db.homes.insert_one(new_home)
 
-    # 🚀 Upgrade the user's role to include "host"
-    user_data = db.users.find_one({"_id": ObjectId(user_id)})
-    if user_data:
-        current_role = user_data.get("role", "guest")
-        if isinstance(current_role, str):
-            if "host" not in current_role:
-                db.users.update_one(
-                    {"_id": ObjectId(user_id)},
-                    {"$set": {"role": ["guest", "host"]}}
-                )
-        elif isinstance(current_role, list):
+    # 🚀 Promote user to host — but never downgrade elevated admin roles
+    _current_user = db.users.find_one({"_id": ObjectId(user_id)}, {"role": 1})
+    if _current_user:
+        _current_role = _current_user.get("role", "guest")
+        _protected_roles = {"super_admin", "admin", "sub_admin"}
+
+        # Normalise: if role is a list, check each element for a protected role
+        _is_protected = (
+            _current_role in _protected_roles
+            if isinstance(_current_role, str)
+            else any(r in _protected_roles for r in _current_role)
+        )
+
+        if _is_protected:
+            # Only flag as host — never touch the admin role
             db.users.update_one(
                 {"_id": ObjectId(user_id)},
-                {"$addToSet": {"role": "host"}}
+                {"$set": {"is_host": True}}
+            )
+        else:
+            # Safe to promote guest → host
+            db.users.update_one(
+                {"_id": ObjectId(user_id)},
+                {"$set": {"is_host": True, "role": "host"}}
             )
 
     return {

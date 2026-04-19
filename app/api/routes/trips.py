@@ -308,26 +308,70 @@ def get_my_trips(current_user: str = Depends(get_current_user)):
     user_oid = ObjectId(current_user)
     now = datetime.now(timezone.utc)
 
-    # Find trips where user is owner OR a member
-    query = {
+    # 1. Fetch existing trip documents
+    trip_query = {
         "$or": [
             {"owner_id": user_oid},
             {"members": user_oid},
-            {"userId": user_oid} # Check both legacy and new field names
+            {"userId": user_oid}
         ]
     }
-    
-    trips = list(db.trips.find(query).sort("start_date", 1))
-    print(f"!!! DEBUG: Found {len(trips)} trips for user {current_user} !!!")
-    
-    upcoming, past = [], []
+    existing_trips = list(db.trips.find(trip_query))
+    # Keep track of booking IDs that already have trips
+    trip_booking_ids = {str(t["booking_id"]) for t in existing_trips if t.get("booking_id")}
 
-    for t in trips:
-        serialized = enrich_trip(serialize_trip(t))
+    # 2. Fetch confirmed + paid bookings for this user
+    booking_query = {
+        "userId": user_oid,
+        "bookingStatus": "confirmed",
+        "paymentStatus": "success"
+    }
+    bookings = list(db.bookings.find(booking_query))
+    
+    # 3. Handle confirmed + paid bookings (ensure they have trip documents)
+    for b in bookings:
+        booking_id = b["_id"]
+        if str(booking_id) not in trip_booking_ids:
+            # AUTO-CREATE TRIP DOCUMENT
+            try:
+                prop = db.homes.find_one({"_id": b["propertyId"]}, {"title": 1})
+                prop_title = prop.get("title", "Stay") if prop else "Stay"
+                
+                trip_doc = {
+                    "title": f"Trip to {prop_title}",
+                    "booking_id": booking_id,
+                    "property_id": b.get("propertyId"),
+                    "userId": user_oid,
+                    "owner_id": user_oid,
+                    "members": [user_oid],
+                    "start_date": b.get("checkIn"),
+                    "end_date": b.get("checkOut"),
+                    "created_at": datetime.now(timezone.utc),
+                }
+                # Use upsert to avoid race conditions
+                result = db.trips.update_one(
+                    {"booking_id": booking_id}, 
+                    {"$setOnInsert": trip_doc}, 
+                    upsert=True
+                )
+                if result.upserted_id:
+                    print(f"!!! SUCCESS: Lazy-created trip for booking {booking_id} !!!")
+            except Exception as e:
+                print(f"!!! ERROR: Failed lazy trip creation: {e} !!!")
+
+    # 4. Final query now that we've ensured all bookings should have trip docs
+    # (Re-running query is simplest, or we can just append the new docs)
+    all_trips_cursor = db.trips.find(trip_query).sort("start_date", 1)
+    results = [enrich_trip(serialize_trip(t)) for t in all_trips_cursor]
+
+    print(f"!!! DEBUG: Returning {len(results)} trips for user {current_user} !!!")
+
+    upcoming, past = [], []
+    for t in results:
         start = t.get("start_date")
         end = t.get("end_date")
 
-        # Handle string dates (legacy)
+        # Handle various date formats (string vs datetime)
         if isinstance(start, str):
             try: start = datetime.fromisoformat(start.replace("Z", "+00:00"))
             except: pass
@@ -341,16 +385,18 @@ def get_my_trips(current_user: str = Depends(get_current_user)):
         if isinstance(end, datetime) and end.tzinfo is None:
             end = end.replace(tzinfo=timezone.utc)
 
-        # Logic per User Request:
-        # Upcoming: start_date >= now
-        # Past: end_date < now
+        # Logic for grouping
         if isinstance(start, datetime) and start >= now:
-            upcoming.append(serialized)
+            upcoming.append(t)
         elif isinstance(end, datetime) and end < now:
-            past.append(serialized)
+            past.append(t)
         else:
-            # Ongoing or other cases - default to upcoming for visibility
-            upcoming.append(serialized)
+            # Ongoing or edge cases -> upcoming
+            upcoming.append(t)
+
+    # Sort
+    upcoming.sort(key=lambda x: x.get("start_date", ""), reverse=False)
+    past.sort(key=lambda x: x.get("start_date", ""), reverse=True)
 
     return {"upcoming_trips": upcoming, "past_trips": past}
 

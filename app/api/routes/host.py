@@ -59,14 +59,36 @@ async def get_host_dashboard(
             return {field: {"$in": variants}}
         
         host_query = make_query("host_id")
-        
+
+        print("DEBUG user_id_str:", user_id_str)
+        print("DEBUG user_oid:", user_oid)
+        print("DEBUG host_query:", host_query)
+
         homes = list(db.properties.find(host_query).sort("created_at", -1)) + \
                 list(db.homes.find(host_query).sort("created_at", -1))
         crashpads = list(db.crashpads_listings.find(host_query).sort("created_at", -1))
-        travel_buddies = list(db.buddy_applications.find({
-            "$or": [make_query("host_id"), make_query("user_id")]
-        }).sort("created_at", -1))
-        
+        travel_buddies = list(db.buddy_requests.find(
+            make_query("user_id")
+        ).sort("created_at", -1))
+
+        print("DEBUG homes count:", len(homes))
+        print("DEBUG crashpads count:", len(crashpads))
+        print("DEBUG travel_buddies count:", len(travel_buddies))
+
+        # Sample docs to inspect field structure
+        sample = db.buddy_requests.find_one({})
+        print("DEBUG buddy_requests sample doc:", sample)
+
+        sample_crashpad = db.crashpads_listings.find_one({})
+        print("DEBUG crashpads_listings sample doc:", sample_crashpad)
+
+        for b in travel_buddies:
+            b.setdefault("title", f"Travel Buddy: {b.get('destination', b.get('city', 'Trip'))}")
+            b.setdefault("status", "approved")
+            b.setdefault("price_per_night", 0)
+            b.setdefault("city", b.get("destination", ""))
+            b.setdefault("is_active", True)
+
         return {
             "homes": [serialize_doc(h) for h in homes],
             "crashpads": [serialize_doc(c) for c in crashpads],
@@ -373,6 +395,26 @@ async def unblock_calendar_dates(body: BlockDateRequest, current_user: str = Dep
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@router.get("/calendar/blocked")
+async def get_blocked_calendar_dates(current_user: str = Depends(get_current_user)):
+    try:
+        user_id_str = str(current_user)
+        try:
+            user_oid = ObjectId(user_id_str)
+        except:
+            user_oid = None
+            
+        id_variants = [user_id_str]
+        if user_oid: id_variants.append(user_oid)
+            
+        blocked = list(db.blocked_dates.find({
+            "host_id": {"$in": id_variants}
+        }))
+        blocked_dates = [b.get("date", "") for b in blocked if b.get("date")]
+        return {"status": "success", "blocked_dates": blocked_dates}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @router.get("/earnings")
 async def get_host_earnings(period: str = "month", current_user: str = Depends(get_current_user)):
     try:
@@ -539,9 +581,59 @@ async def get_host_notifications(current_user: str = Depends(get_current_user)):
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.patch("/listings/{listing_id}/toggle")
-async def toggle_listing(listing_id: str, current_user: str = Depends(get_current_user)):
-    # Simple toggle logic for demo
-    return {"status": "success"}
+def toggle_listing_active(listing_id: str, user_id: str = Depends(get_current_user)):
+    if not ObjectId.is_valid(listing_id):
+        raise HTTPException(status_code=400, detail="Invalid listing ID")
+
+    uid = ObjectId(user_id)
+    oid = ObjectId(listing_id)
+
+    # Try every collection where listings might live
+    collections_to_try = ["homes", "crashpads_listings", "travel_buddies", "buddy_requests", "properties"]
+
+    for collection_name in collections_to_try:
+        coll = getattr(db, collection_name, None)
+        if coll is None:
+            continue
+
+        # Try every host field variant: host_id, hostId, user_id, userId, owner_id, ownerId
+        ownership_query = {
+            "$or": [
+                {"host_id": uid}, {"host_id": user_id},
+                {"hostId": uid}, {"hostId": user_id},
+                {"user_id": uid}, {"user_id": user_id},
+                {"userId": uid}, {"userId": user_id},
+                {"owner_id": uid}, {"owner_id": user_id},
+                {"ownerId": uid}, {"ownerId": user_id},
+            ]
+        }
+
+        listing = coll.find_one({"_id": oid, **ownership_query})
+        if listing:
+            new_state = not bool(listing.get("is_active", True))
+            coll.update_one(
+                {"_id": oid},
+                {"$set": {"is_active": new_state, "updated_at": datetime.utcnow()}}
+            )
+            print(f"✅ Toggled {listing_id} in {collection_name} -> is_active={new_state}")
+            return {"id": listing_id, "is_active": new_state, "collection": collection_name, "message": "Listing toggled"}
+
+    raise HTTPException(status_code=404, detail="Listing not found or not owned by host")
+
+@router.delete("/listings/{listing_id}")
+async def delete_listing(listing_id: str, current_user: str = Depends(get_current_user)):
+    oid = ObjectId(listing_id)
+    for col in [db.homes, db.properties]:
+        if col.delete_one({"_id": oid}).deleted_count:
+            return {"message": "Deleted"}
+    raise HTTPException(status_code=404, detail="Not found")
+
+@router.delete("/crashpads/{crashpad_id}")
+async def delete_crashpad_host(crashpad_id: str, current_user: str = Depends(get_current_user)):
+    oid = ObjectId(crashpad_id)
+    if db.crashpads_listings.delete_one({"_id": oid}).deleted_count:
+        return {"message": "Deleted"}
+    raise HTTPException(status_code=404, detail="Not found")
 
 @router.get("/stats/{listing_id}")
 async def get_listing_stats(listing_id: str, current_user: str = Depends(get_current_user)):
@@ -561,3 +653,75 @@ async def get_listing_stats(listing_id: str, current_user: str = Depends(get_cur
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/host/reviews-summary")
+async def get_host_reviews_summary(current_user: dict = Depends(get_current_user)):
+    host_id = str(current_user["_id"])
+    
+    listings = list(db.listings.find({
+        "$or": [{"host_id": host_id}, {"hostId": host_id}]
+    }))
+    listing_ids = [str(l["_id"]) for l in listings]
+    listing_map = {str(l["_id"]): l.get("title", "Listing") for l in listings}
+    
+    if not listing_ids:
+        return {
+            "overall_rating": 0.0,
+            "total_reviews": 0,
+            "distribution": {"5": 0, "4": 0, "3": 0, "2": 0, "1": 0},
+            "category_ratings": {"cleanliness": 0.0, "location": 0.0, "communication": 0.0, "value": 0.0},
+            "recent_reviews": []
+        }
+    
+    reviews = list(db.reviews.find({
+        "$or": [{"listing_id": {"$in": listing_ids}}, {"listingId": {"$in": listing_ids}}]
+    }))
+    
+    total = len(reviews)
+    if total == 0:
+        return {
+            "overall_rating": 0.0,
+            "total_reviews": 0,
+            "distribution": {"5": 0, "4": 0, "3": 0, "2": 0, "1": 0},
+            "category_ratings": {"cleanliness": 0.0, "location": 0.0, "communication": 0.0, "value": 0.0},
+            "recent_reviews": []
+        }
+    
+    ratings = [r.get("rating", 0) for r in reviews]
+    overall = round(sum(ratings) / total, 1)
+    
+    dist = {"5": 0, "4": 0, "3": 0, "2": 0, "1": 0}
+    for r in ratings:
+        key = str(int(round(r)))
+        if key in dist:
+            dist[key] += 1
+    distribution = {k: round((v / total) * 100) for k, v in dist.items()}
+    
+    def cat_avg(field):
+        vals = [r.get(field, r.get("rating", 0)) for r in reviews]
+        return round(sum(vals) / len(vals), 1) if vals else 0.0
+    
+    category_ratings = {
+        "cleanliness": cat_avg("cleanliness"),
+        "location": cat_avg("location"),
+        "communication": cat_avg("communication"),
+        "value": cat_avg("value")
+    }
+    
+    sorted_reviews = sorted(reviews, key=lambda r: r.get("created_at", r.get("createdAt", "")), reverse=True)[:10]
+    recent = [{
+        "_id": str(r["_id"]),
+        "guest_name": r.get("guest_name", r.get("guestName", "Guest")),
+        "rating": r.get("rating", 0),
+        "comment": r.get("comment", ""),
+        "created_at": str(r.get("created_at", r.get("createdAt", ""))),
+        "listing_title": listing_map.get(str(r.get("listing_id", r.get("listingId", ""))), "Listing")
+    } for r in sorted_reviews]
+    
+    return {
+        "overall_rating": overall,
+        "total_reviews": total,
+        "distribution": distribution,
+        "category_ratings": category_ratings,
+        "recent_reviews": recent
+    }

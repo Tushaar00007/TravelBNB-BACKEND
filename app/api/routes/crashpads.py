@@ -1,7 +1,9 @@
+#crashpads.py
 from fastapi import APIRouter, Depends, HTTPException, Query, Form, File, UploadFile
 from app.core.database import db
 from app.core.dependencies import get_current_user, get_current_user_optional
 from app.models.crashpad import CrashpadCreate, Location
+from app.models.schemas import StayRequestSchema
 from datetime import datetime
 from bson import ObjectId
 from typing import Optional, List
@@ -139,8 +141,8 @@ async def get_views_graph(id: str, current_user_id: str = Depends(get_current_us
 def get_all_crashpads(
     city: Optional[str] = Query(None, description="Filter by city"),
 ):
-    """Return all approved crashpads with optional city filter."""
-    query: dict = {"status": "approved"}
+    """Return all approved AND active crashpads with optional city filter."""
+    query: dict = {"status": "approved", "is_active": True}
 
     if city:
         query["location.city"] = {"$regex": f"^{city}", "$options": "i"}
@@ -178,7 +180,7 @@ def search_crashpads(
 def get_distinct_locations():
     """Return all unique city/state pairs currently in the database."""
     pipeline = [
-        {"$match": {"status": "approved"}},
+        {"$match": {"status": "approved", "is_active": True}},
         {"$group": {
             "_id": {
                 "city": "$location.city",
@@ -195,6 +197,94 @@ def get_distinct_locations():
     
     locations = list(db.crashpads_listings.aggregate(pipeline))
     return locations
+
+
+@router.get("/me")
+def get_my_crashpads(user_id: str = Depends(get_current_user)):
+    """Return all crashpads belonging to the authenticated user."""
+    uid = ObjectId(user_id)
+    query = {"$or": [{"host_id": uid}, {"host_id": user_id}]}
+    crashpads = list(db.crashpads_listings.find(query).sort("created_at", -1))
+    return [serialize_crashpad(c) for c in crashpads]
+
+
+@router.get("/host-requests")
+def get_host_requests(user_id: str = Depends(get_current_user)):
+    """Return all stay requests for crashpads owned by the host, enriched with guest + property info."""
+    user_id_str = str(user_id)
+    try:
+        user_oid = ObjectId(user_id_str)
+    except:
+        user_oid = None
+        
+    id_variants = [user_id_str]
+    if user_oid:
+        id_variants.append(user_oid)
+
+    pads = list(db.crashpads_listings.find(
+        {"host_id": {"$in": id_variants}},
+        {"_id": 1, "title": 1, "images": 1}
+    ))
+    if not pads:
+        return []
+
+    pad_map = {str(p["_id"]): p for p in pads}
+    pad_ids = [p["_id"] for p in pads]
+
+    reqs = list(db.requests.find({"crashpad_id": {"$in": pad_ids}}).sort("created_at", -1))
+
+    enriched = []
+    for r in reqs:
+        # Resolve guest name
+        guest_name = "Guest"
+        guest_id = r.get("guest_id")
+        if guest_id:
+            try:
+                g = db.users.find_one(
+                    {"_id": guest_id if isinstance(guest_id, ObjectId) else ObjectId(guest_id)},
+                    {"name": 1, "email": 1}
+                )
+                if g:
+                    guest_name = g.get("name") or (g.get("email", "Guest").split("@")[0])
+            except Exception:
+                pass
+
+        pad = pad_map.get(str(r.get("crashpad_id")), {})
+
+        enriched.append({
+            "_id": str(r["_id"]),
+            "id": str(r["_id"]),
+            "request_id": str(r["_id"]),
+            "crashpad_id": str(r.get("crashpad_id", "")),
+            "property_id": str(r.get("crashpad_id", "")),
+            "property_title": pad.get("title", "Crashpad"),
+            "property_image": (pad.get("images") or [None])[0],
+            "host_id": str(r.get("host_id", "")),
+            "guest_id": str(r.get("guest_id", "")),
+            "guest_name": guest_name,
+            "message": r.get("message", ""),
+            "check_in": r.get("check_in", ""),
+            "check_out": r.get("check_out", ""),
+            "guests": r.get("guests", 1),
+            "total_price": r.get("total_price", 0),
+            "status": r.get("status", "pending"),
+            "created_at": r.get("created_at").isoformat() if isinstance(r.get("created_at"), datetime) else r.get("created_at"),
+            "kind": "crashpad_request",  # marker so frontend can route Approve/Decline correctly
+        })
+
+    return enriched
+
+
+@router.get("/is-host/{user_id}")
+async def check_is_host(user_id: str):
+    """Verify if a user has any crashpad listings."""
+    try:
+        uid = ObjectId(user_id)
+        query = {"$or": [{"host_id": uid}, {"host_id": user_id}]}
+        crashpad = db.crashpads_listings.find_one(query)
+        return {"isHost": True if crashpad else False}
+    except Exception:
+        return {"isHost": False}
 
 
 @router.post("/", status_code=201)
@@ -309,6 +399,80 @@ async def create_crashpad(
     }
 
 
+@router.post("/{crashpad_id}/request")
+async def create_stay_request(
+    crashpad_id: str, 
+    request: StayRequestSchema, 
+    user_id: str = Depends(get_current_user)
+):
+    """Create a new stay request for a crashpad."""
+    crashpad = get_crashpad_or_404(crashpad_id)
+    
+    new_request = {
+        "crashpad_id": ObjectId(crashpad["_id"]),
+        "host_id": ObjectId(crashpad["host_id"]),
+        "guest_id": ObjectId(user_id),
+        "message": request.message,
+        "check_in": request.check_in,
+        "check_out": request.check_out,
+        "guests": request.guests,
+        "total_price": request.total_price,
+        "status": "pending",
+        "created_at": datetime.utcnow()
+    }
+    
+    result = db.requests.insert_one(new_request)
+    return {
+        "message": "Stay request sent successfully",
+        "request_id": str(result.inserted_id)
+    }
+
+
+@router.patch("/requests/{request_id}/approve")
+def approve_crashpad_request(request_id: str, user_id: str = Depends(get_current_user)):
+    """Approve a crashpad stay request."""
+    try:
+        oid = ObjectId(request_id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid request ID")
+
+    req = db.requests.find_one({"_id": oid})
+    if not req:
+        raise HTTPException(status_code=404, detail="Request not found")
+
+    # Ownership check
+    if str(req.get("host_id")) != user_id:
+        raise HTTPException(status_code=403, detail="Not authorized")
+
+    db.requests.update_one(
+        {"_id": oid},
+        {"$set": {"status": "approved", "approved_at": datetime.utcnow()}}
+    )
+    return {"request_id": request_id, "status": "approved", "message": "Request approved"}
+
+
+@router.patch("/requests/{request_id}/decline")
+def decline_crashpad_request(request_id: str, user_id: str = Depends(get_current_user)):
+    """Decline a crashpad stay request."""
+    try:
+        oid = ObjectId(request_id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid request ID")
+
+    req = db.requests.find_one({"_id": oid})
+    if not req:
+        raise HTTPException(status_code=404, detail="Request not found")
+
+    if str(req.get("host_id")) != user_id:
+        raise HTTPException(status_code=403, detail="Not authorized")
+
+    db.requests.update_one(
+        {"_id": oid},
+        {"$set": {"status": "rejected", "rejected_at": datetime.utcnow()}}
+    )
+    return {"request_id": request_id, "status": "rejected", "message": "Request declined"}
+
+
 @router.get("/{crashpad_id}")
 def get_crashpad(crashpad_id: str):
     """Return a single crashpad by ID with host details."""
@@ -327,25 +491,21 @@ def get_crashpad(crashpad_id: str):
     return serialize_crashpad(crashpad)
 
 
-@router.get("/me")
-def get_my_crashpads(user_id: str = Depends(get_current_user)):
-    """Return all crashpads belonging to the authenticated user."""
-    uid = ObjectId(user_id)
-    query = {"$or": [{"host_id": uid}, {"host_id": user_id}]}
-    crashpads = list(db.crashpads_listings.find(query).sort("created_at", -1))
-    return [serialize_crashpad(c) for c in crashpads]
-
-
-@router.get("/is-host/{user_id}")
-async def check_is_host(user_id: str):
-    """Verify if a user has any crashpad listings."""
+@router.patch("/{crashpad_id}")
+async def update_crashpad(crashpad_id: str, data: dict, user_id: str = Depends(get_current_user)):
     try:
-        uid = ObjectId(user_id)
-        query = {"$or": [{"host_id": uid}, {"host_id": user_id}]}
-        crashpad = db.crashpads_listings.find_one(query)
-        return {"isHost": True if crashpad else False}
-    except Exception:
-        return {"isHost": False}
+        oid = ObjectId(crashpad_id)
+    except:
+        raise HTTPException(status_code=400, detail="Invalid ID")
+    doc = db.crashpads_listings.find_one({"_id": oid})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Not found")
+    if str(doc.get("host_id", "")) != user_id:
+        raise HTTPException(status_code=403, detail="Not your listing")
+    data.pop("_id", None)
+    data["updated_at"] = datetime.utcnow()
+    db.crashpads_listings.update_one({"_id": oid}, {"$set": data})
+    return {"message": "Crashpad updated"}
 
 
 @router.delete("/{id}")
@@ -365,16 +525,3 @@ def delete_crashpad(id: str, user_id: str = Depends(get_current_user)):
 
     db.crashpads_listings.delete_one({"_id": oid})
     return {"message": "Crashpad deleted successfully"}
-
-
-@router.get("/host-requests")
-def get_host_requests(user_id: str = Depends(get_current_user)):
-    """Return all stay requests for crashpads owned by the host."""
-    pads = list(db.crashpads_listings.find({"host_id": ObjectId(user_id)}, {"_id": 1}))
-    pad_ids = [p["_id"] for p in pads]
-    reqs = list(db.requests.find({"crashpad_id": {"$in": pad_ids}}))
-    for r in reqs:
-        r["_id"] = str(r["_id"])
-        r["crashpad_id"] = str(r["crashpad_id"])
-        r["guest_id"] = str(r["guest_id"])
-    return reqs

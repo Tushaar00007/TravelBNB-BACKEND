@@ -6,7 +6,7 @@ import httpx
 
 logger = logging.getLogger(__name__)
 
-ML_BASE_URL = os.getenv("ML_BASE_URL", "https://ai-travel-planner-txji.onrender.com").rstrip("/")
+ML_BASE_URL = os.getenv("ML_BASE_URL", "http://localhost:9000").rstrip("/")
 
 
 def _ml_endpoint(path: str = "") -> str:

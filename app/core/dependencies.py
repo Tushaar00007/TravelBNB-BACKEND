@@ -5,25 +5,28 @@ from typing import Optional
 import os
 from bson import ObjectId
 
-SECRET_KEY = os.getenv("JWT_SECRET")
-if not SECRET_KEY:
-    print("!!! WARNING: JWT_SECRET not found in environment. Using insecure fallback !!!")
-    SECRET_KEY = "dev_fallback_secret_key_change_in_production"
-ALGORITHM = "HS256"
+from app.core.config import settings
+
+SECRET_KEY = settings.SECRET_KEY
+ALGORITHM = settings.ALGORITHM
 
 security = HTTPBearer()
 
-# ── Original (unchanged) ─────────────────────────────────────
 def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
     token = credentials.credentials
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_id = payload.get("user_id")
         if user_id is None:
+            print(f"❌ AUTH ERROR: Token missing 'user_id'. Payload: {payload}")
             raise HTTPException(status_code=401, detail="Invalid token")
         return user_id
-    except JWTError:
-        raise HTTPException(status_code=401, detail="Invalid or expired token")
+    except JWTError as e:
+        print(f"❌ AUTH ERROR: JWT Validation failed: {str(e)}")
+        # Partial print of secret key for debugging (first/last 3 chars)
+        mask_secret = f"{SECRET_KEY[:3]}...{SECRET_KEY[-3:]}" if SECRET_KEY else "None"
+        print(f"DEBUG: Using Secret Key: {mask_secret}, Algorithm: {ALGORITHM}")
+        raise HTTPException(status_code=401, detail=f"Invalid or expired token: {str(e)}")
 
 
 def get_current_user_optional(credentials: Optional[HTTPAuthorizationCredentials] = Depends(HTTPBearer(auto_error=False))):
@@ -71,6 +74,10 @@ def require_role(allowed_roles: list):
     Usage: user=Depends(require_role(["super_admin"]))
     """
     def role_checker(current_user: dict = Depends(get_current_user_full)):
+        # Super Admins pass all role checks
+        if current_user["role"] == "super_admin":
+            return current_user
+
         if current_user["role"] not in allowed_roles:
             raise HTTPException(
                 status_code=403,

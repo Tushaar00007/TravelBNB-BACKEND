@@ -1,10 +1,10 @@
 import bcrypt
 from jose import jwt
-import os
+from app.core.config import settings
 from datetime import datetime, timedelta
 
-SECRET_KEY = os.getenv("JWT_SECRET")
-ALGORITHM = "HS256"
+ALGORITHM = settings.ALGORITHM
+SECRET_KEY = settings.SECRET_KEY
 
 def hash_password(password: str):
     return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
